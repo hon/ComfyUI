@@ -40,12 +40,12 @@
     "filename_prefix": "id_photo_"
   },
   "templates": {
-    "dir": "id_photo_templates",
+    "dir": "",
     "files": [
-      "male_short.jpg",
-      "male_long.jpg",
-      "female_short.jpg",
-      "female_long.jpg"
+      "male_short.png",
+      "male_long.png",
+      "female_short.png",
+      "female_long.png"
     ]
   }
 }

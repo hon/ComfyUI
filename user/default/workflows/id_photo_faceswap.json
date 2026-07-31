@@ -8,7 +8,7 @@
   "2": {
     "class_type": "LoadImage",
     "inputs": {
-      "image": "male_short.jpg"
+      "image": "male_short.png"
     }
   },
   "3": {

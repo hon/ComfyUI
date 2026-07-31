@@ -187,11 +187,14 @@ def main():
         json.dump(generate, f, indent=2)
 
     template = args.template or assets["templates"]["files"][0]
-    template_path = ROOT / "input" / assets["templates"]["dir"] / template
+    template_dir = assets["templates"]["dir"]
+    template_path = ROOT / "input" / template_dir / template
     if not template_path.exists():
         print(f"warning: template not found: {template_path}", file=sys.stderr)
         print(f"  faceswap workflow will not run until you place a template there.", file=sys.stderr)
-    faceswap = build_faceswap(assets, template)
+    # LoadImage resolves files relative to input/; subfolder files are referenced
+    # with the standard "subdir/name.ext" path form.
+    faceswap = build_faceswap(assets, f"{template_dir}/{template}" if template_dir else template)
     with open(out_dir / "id_photo_faceswap.json", "w") as f:
         json.dump(faceswap, f, indent=2)
 
