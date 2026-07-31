@@ -8,21 +8,27 @@
   "2": {
     "class_type": "LoadImage",
     "inputs": {
-      "image": "id_photo_ref.png"
+      "image": "Image.png"
     }
   },
   "3": {
     "class_type": "CLIPTextEncode",
     "inputs": {
       "text": "professional ID photo, headshot, studio lighting, clean white background, centered composition, formal attire, high quality, sharp focus",
-      "clip": ["1", 1]
+      "clip": [
+        "1",
+        1
+      ]
     }
   },
   "4": {
     "class_type": "CLIPTextEncode",
     "inputs": {
       "text": "blurry, low quality, deformed face, extra limbs, watermark, text, logo, messy hair, double chin, shadow on face",
-      "clip": ["1", 1]
+      "clip": [
+        "1",
+        1
+      ]
     }
   },
   "5": {
@@ -54,13 +60,34 @@
   "9": {
     "class_type": "ApplyInstantID",
     "inputs": {
-      "instantid": ["6", 0],
-      "insightface": ["7", 0],
-      "control_net": ["8", 0],
-      "image": ["2", 0],
-      "model": ["1", 0],
-      "positive": ["3", 0],
-      "negative": ["4", 0],
+      "instantid": [
+        "6",
+        0
+      ],
+      "insightface": [
+        "7",
+        0
+      ],
+      "control_net": [
+        "8",
+        0
+      ],
+      "image": [
+        "2",
+        0
+      ],
+      "model": [
+        "1",
+        0
+      ],
+      "positive": [
+        "3",
+        0
+      ],
+      "negative": [
+        "4",
+        0
+      ],
       "weight": 0.8,
       "start_at": 0,
       "end_at": 0.8
@@ -75,17 +102,35 @@
       "sampler_name": "euler",
       "scheduler": "karras",
       "denoise": 1,
-      "model": ["9", 0],
-      "positive": ["9", 1],
-      "negative": ["9", 2],
-      "latent_image": ["5", 0]
+      "model": [
+        "9",
+        0
+      ],
+      "positive": [
+        "9",
+        1
+      ],
+      "negative": [
+        "9",
+        2
+      ],
+      "latent_image": [
+        "5",
+        0
+      ]
     }
   },
   "11": {
     "class_type": "VAEDecode",
     "inputs": {
-      "samples": ["10", 0],
-      "vae": ["1", 2]
+      "samples": [
+        "10",
+        0
+      ],
+      "vae": [
+        "1",
+        2
+      ]
     }
   },
   "12": {
@@ -95,8 +140,14 @@
   "13": {
     "class_type": "BRIA_RMBG_Zho",
     "inputs": {
-      "rmbgmodel": ["12", 0],
-      "image": ["11", 0]
+      "rmbgmodel": [
+        "12",
+        0
+      ],
+      "image": [
+        "11",
+        0
+      ]
     }
   },
   "14": {
@@ -110,12 +161,21 @@
   "15": {
     "class_type": "ImageCompositeMasked",
     "inputs": {
-      "destination": ["14", 0],
-      "source": ["13", 0],
+      "destination": [
+        "14",
+        0
+      ],
+      "source": [
+        "13",
+        0
+      ],
       "x": 0,
       "y": 0,
       "resize_source": false,
-      "mask": ["13", 1]
+      "mask": [
+        "13",
+        1
+      ]
     }
   },
   "16": {
@@ -127,14 +187,23 @@
   "17": {
     "class_type": "ImageUpscaleWithModel",
     "inputs": {
-      "upscale_model": ["16", 0],
-      "image": ["15", 0]
+      "upscale_model": [
+        "16",
+        0
+      ],
+      "image": [
+        "15",
+        0
+      ]
     }
   },
   "18": {
     "class_type": "ImageResizeKJv2",
     "inputs": {
-      "image": ["17", 0],
+      "image": [
+        "17",
+        0
+      ],
       "width": 295,
       "height": 413,
       "upscale_method": "lanczos",
@@ -148,7 +217,10 @@
     "class_type": "SaveImage",
     "inputs": {
       "filename_prefix": "id_photo_",
-      "images": ["18", 0]
+      "images": [
+        "18",
+        0
+      ]
     }
   }
 }

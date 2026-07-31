@@ -1,3 +1,15 @@
+## Workspace Rules
+
+- All development work must be done on the `custom` branch. Never work on `master`.
+  At the start of any task, if currently on `master`, automatically switch to `custom`.
+- For any task involving model downloads or large files that can use a domestic mirror,
+  prefer domestic mirrors (e.g. `gh-proxy.com`, `hf-mirror.com`, etc.) and use `aria2`
+  as the download tool.
+- Never write generated files, temporary files, or artifacts to the repository
+  root. Results belong in their proper location: generated images/videos in
+  `output/`, workflows in `workflows/`, and throwaway temp files in the OS temp
+  directory (e.g. `/var/folders/.../T/opencode`), never inside the repo.
+
 ## Engineering Style
 
 - Keep changes small and direct. Most fixes should touch the narrowest code path
