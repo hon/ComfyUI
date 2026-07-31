@@ -1,0 +1,262 @@
+{
+  "1": {
+    "class_type": "CheckpointLoaderSimple",
+    "inputs": {
+      "ckpt_name": "Juggernaut-X-RunDiffusion-NSFW.safetensors"
+    }
+  },
+  "2": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "male_short.jpg"
+    }
+  },
+  "3": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "Image.png"
+    }
+  },
+  "4": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "text": "professional ID photo, headshot, studio lighting, clean white background, centered composition, formal attire, high quality, sharp focus",
+      "clip": [
+        "1",
+        1
+      ]
+    }
+  },
+  "5": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "text": "blurry, low quality, deformed face, extra limbs, watermark, text, logo, messy hair, double chin, shadow on face",
+      "clip": [
+        "1",
+        1
+      ]
+    }
+  },
+  "6": {
+    "class_type": "InstantIDModelLoader",
+    "inputs": {
+      "instantid_file": "ip-adapter.bin"
+    }
+  },
+  "7": {
+    "class_type": "InstantIDFaceAnalysis",
+    "inputs": {
+      "provider": "CPU"
+    }
+  },
+  "8": {
+    "class_type": "ControlNetLoader",
+    "inputs": {
+      "control_net_name": "instantid/diffusion_pytorch_model.safetensors"
+    }
+  },
+  "9": {
+    "class_type": "ApplyInstantID",
+    "inputs": {
+      "instantid": [
+        "6",
+        0
+      ],
+      "insightface": [
+        "7",
+        0
+      ],
+      "control_net": [
+        "8",
+        0
+      ],
+      "image": [
+        "3",
+        0
+      ],
+      "model": [
+        "1",
+        0
+      ],
+      "positive": [
+        "4",
+        0
+      ],
+      "negative": [
+        "5",
+        0
+      ],
+      "weight": 0.8,
+      "start_at": 0.0,
+      "end_at": 0.8
+    }
+  },
+  "10": {
+    "class_type": "ImageResizeKJv2",
+    "inputs": {
+      "image": [
+        "2",
+        0
+      ],
+      "width": 640,
+      "height": 640,
+      "upscale_method": "lanczos",
+      "keep_proportion": "pad",
+      "pad_color": "#FFFFFF",
+      "crop_position": "center",
+      "divisible_by": 1
+    }
+  },
+  "11": {
+    "class_type": "VAEEncode",
+    "inputs": {
+      "pixels": [
+        "10",
+        0
+      ],
+      "vae": [
+        "1",
+        2
+      ]
+    }
+  },
+  "12": {
+    "class_type": "KSampler",
+    "inputs": {
+      "model": [
+        "9",
+        0
+      ],
+      "positive": [
+        "9",
+        1
+      ],
+      "negative": [
+        "9",
+        2
+      ],
+      "latent_image": [
+        "11",
+        0
+      ],
+      "seed": 2756545102,
+      "steps": 10,
+      "cfg": 4.5,
+      "sampler_name": "euler",
+      "scheduler": "karras",
+      "denoise": 0.6
+    }
+  },
+  "13": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": [
+        "12",
+        0
+      ],
+      "vae": [
+        "1",
+        2
+      ]
+    }
+  },
+  "14": {
+    "class_type": "BRIA_RMBG_ModelLoader_Zho",
+    "inputs": {}
+  },
+  "15": {
+    "class_type": "BRIA_RMBG_Zho",
+    "inputs": {
+      "rmbgmodel": [
+        "14",
+        0
+      ],
+      "image": [
+        "13",
+        0
+      ]
+    }
+  },
+  "16": {
+    "class_type": "LayerUtility: ColorImage",
+    "inputs": {
+      "width": 640,
+      "height": 640,
+      "color": "#FFFFFF"
+    }
+  },
+  "17": {
+    "class_type": "ImageCompositeMasked",
+    "inputs": {
+      "destination": [
+        "16",
+        0
+      ],
+      "source": [
+        "15",
+        0
+      ],
+      "x": 0,
+      "y": 0,
+      "resize_source": false,
+      "mask": [
+        "15",
+        1
+      ]
+    }
+  },
+  "18": {
+    "class_type": "UpscaleModelLoader",
+    "inputs": {
+      "model_name": "RealESRGAN_x2.pth"
+    }
+  },
+  "19": {
+    "class_type": "ImageUpscaleWithModel",
+    "inputs": {
+      "upscale_model": [
+        "18",
+        0
+      ],
+      "image": [
+        "17",
+        0
+      ]
+    }
+  },
+  "20": {
+    "class_type": "ImageResizeKJv2",
+    "inputs": {
+      "image": [
+        "19",
+        0
+      ],
+      "width": 295,
+      "height": 413,
+      "upscale_method": "lanczos",
+      "keep_proportion": "pad",
+      "pad_color": "#FFFFFF",
+      "crop_position": "center",
+      "divisible_by": 1
+    }
+  },
+  "21": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "filename_prefix": "id_photo_",
+      "images": [
+        "20",
+        0
+      ]
+    }
+  },
+  "22": {
+    "class_type": "PreviewImage",
+    "inputs": {
+      "images": [
+        "20",
+        0
+      ]
+    }
+  }
+}

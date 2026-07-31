@@ -1,0 +1,51 @@
+{
+  "checkpoint": "Juggernaut-X-RunDiffusion-NSFW.safetensors",
+  "reference_image": "Image.png",
+  "instantid": {
+    "ip_adapter": "ip-adapter.bin",
+    "controlnet": "instantid/diffusion_pytorch_model.safetensors",
+    "provider": "CPU",
+    "weight": 0.8,
+    "start_at": 0.0,
+    "end_at": 0.8
+  },
+  "latent": {
+    "width": 640,
+    "height": 640
+  },
+  "sampler": {
+    "seed": 2756545102,
+    "steps": 10,
+    "cfg": 4.5,
+    "sampler_name": "euler",
+    "scheduler": "karras"
+  },
+  "hairstyles": {
+    "default": "short neat hair, cleanly trimmed",
+    "presets": [
+      "short neat hair, cleanly trimmed",
+      "long straight hair",
+      "shoulder-length wavy hair",
+      "slicked-back hair"
+    ]
+  },
+  "positive_prompt": "professional ID photo, headshot, studio lighting, clean white background, centered composition, formal attire, high quality, sharp focus",
+  "negative_prompt": "blurry, low quality, deformed face, extra limbs, watermark, text, logo, messy hair, double chin, shadow on face",
+  "upscale": {
+    "model": "RealESRGAN_x2.pth"
+  },
+  "output": {
+    "width": 295,
+    "height": 413,
+    "filename_prefix": "id_photo_"
+  },
+  "templates": {
+    "dir": "id_photo_templates",
+    "files": [
+      "male_short.jpg",
+      "male_long.jpg",
+      "female_short.jpg",
+      "female_long.jpg"
+    ]
+  }
+}
