@@ -1,6 +1,8 @@
 {
-  "last_node_id": 23,
-  "last_link_id": 28,
+  "id": "81720467-1454-46ff-8f86-f9abcd15c1e8",
+  "revision": 0,
+  "last_node_id": 24,
+  "last_link_id": 32,
   "nodes": [
     {
       "id": 1,
@@ -10,15 +12,26 @@
         40
       ],
       "size": [
-        280,
-        128
+        225,
+        102
       ],
       "flags": {},
       "order": 0,
       "mode": 0,
-      "inputs": [],
+      "inputs": [
+        {
+          "localized_name": "Checkpoint名称",
+          "name": "ckpt_name",
+          "type": "COMBO",
+          "widget": {
+            "name": "ckpt_name"
+          },
+          "link": null
+        }
+      ],
       "outputs": [
         {
+          "localized_name": "模型",
           "name": "MODEL",
           "type": "MODEL",
           "links": [
@@ -26,6 +39,7 @@
           ]
         },
         {
+          "localized_name": "CLIP",
           "name": "CLIP",
           "type": "CLIP",
           "links": [
@@ -34,6 +48,7 @@
           ]
         },
         {
+          "localized_name": "VAE",
           "name": "VAE",
           "type": "VAE",
           "links": [
@@ -42,31 +57,51 @@
           ]
         }
       ],
+      "title": "基础模型",
       "properties": {
         "Node name for S&R": "CheckpointLoaderSimple"
       },
       "widgets_values": [
         "Juggernaut-X-RunDiffusion-NSFW.safetensors"
-      ],
-      "title": "\u57fa\u7840\u6a21\u578b"
+      ]
     },
     {
       "id": 2,
       "type": "LoadImage",
       "pos": [
         500,
-        228
+        202
       ],
       "size": [
-        280,
-        440
+        225,
+        322
       ],
       "flags": {},
       "order": 1,
       "mode": 0,
-      "inputs": [],
+      "inputs": [
+        {
+          "localized_name": "图像",
+          "name": "image",
+          "type": "COMBO",
+          "widget": {
+            "name": "image"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "选择文件上传",
+          "name": "upload",
+          "type": "IMAGEUPLOAD",
+          "widget": {
+            "name": "upload"
+          },
+          "link": null
+        }
+      ],
       "outputs": [
         {
+          "localized_name": "图像",
           "name": "IMAGE",
           "type": "IMAGE",
           "links": [
@@ -74,36 +109,58 @@
           ]
         },
         {
+          "localized_name": "遮罩",
           "name": "MASK",
           "type": "MASK",
           "links": []
         }
       ],
+      "title": "证件照模板（发型/构图）",
       "properties": {
         "Node name for S&R": "LoadImage"
       },
       "widgets_values": [
-        "male_short.png"
-      ],
-      "title": "\u8bc1\u4ef6\u7167\u6a21\u677f\uff08\u53d1\u578b/\u6784\u56fe\uff09"
+        "male_short.png",
+        "image"
+      ]
     },
     {
       "id": 3,
       "type": "LoadImage",
       "pos": [
         500,
-        728
+        584
       ],
       "size": [
-        280,
-        440
+        225,
+        322
       ],
       "flags": {},
       "order": 2,
       "mode": 0,
-      "inputs": [],
+      "inputs": [
+        {
+          "localized_name": "图像",
+          "name": "image",
+          "type": "COMBO",
+          "widget": {
+            "name": "image"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "选择文件上传",
+          "name": "upload",
+          "type": "IMAGEUPLOAD",
+          "widget": {
+            "name": "upload"
+          },
+          "link": null
+        }
+      ],
       "outputs": [
         {
+          "localized_name": "图像",
           "name": "IMAGE",
           "type": "IMAGE",
           "links": [
@@ -111,42 +168,55 @@
           ]
         },
         {
+          "localized_name": "遮罩",
           "name": "MASK",
           "type": "MASK",
           "links": []
         }
       ],
+      "title": "参考照片（身份来源）",
       "properties": {
         "Node name for S&R": "LoadImage"
       },
       "widgets_values": [
-        "Image.png"
-      ],
-      "title": "\u53c2\u8003\u7167\u7247\uff08\u8eab\u4efd\u6765\u6e90\uff09"
+        "Image.png",
+        "image"
+      ]
     },
     {
       "id": 4,
       "type": "CLIPTextEncode",
       "pos": [
-        840,
+        785,
         40
       ],
       "size": [
-        280,
-        84
+        225,
+        102
       ],
       "flags": {},
-      "order": 3,
+      "order": 10,
       "mode": 0,
       "inputs": [
         {
+          "localized_name": "clip",
           "name": "clip",
           "type": "CLIP",
           "link": 1
+        },
+        {
+          "localized_name": "文本",
+          "name": "text",
+          "type": "STRING",
+          "widget": {
+            "name": "text"
+          },
+          "link": null
         }
       ],
       "outputs": [
         {
+          "localized_name": "条件",
           "name": "CONDITIONING",
           "type": "CONDITIONING",
           "links": [
@@ -154,37 +224,48 @@
           ]
         }
       ],
+      "title": "正向提示词",
       "properties": {
         "Node name for S&R": "CLIPTextEncode"
       },
       "widgets_values": [
         "professional ID photo, headshot, studio lighting, clean white background, centered composition, formal attire, high quality, sharp focus"
-      ],
-      "title": "\u6b63\u5411\u63d0\u793a\u8bcd"
+      ]
     },
     {
       "id": 5,
       "type": "CLIPTextEncode",
       "pos": [
-        840,
-        184
+        785,
+        202
       ],
       "size": [
-        280,
-        84
+        225,
+        102
       ],
       "flags": {},
-      "order": 4,
+      "order": 11,
       "mode": 0,
       "inputs": [
         {
+          "localized_name": "clip",
           "name": "clip",
           "type": "CLIP",
           "link": 2
+        },
+        {
+          "localized_name": "文本",
+          "name": "text",
+          "type": "STRING",
+          "widget": {
+            "name": "text"
+          },
+          "link": null
         }
       ],
       "outputs": [
         {
+          "localized_name": "条件",
           "name": "CONDITIONING",
           "type": "CONDITIONING",
           "links": [
@@ -192,31 +273,42 @@
           ]
         }
       ],
+      "title": "负向提示词",
       "properties": {
         "Node name for S&R": "CLIPTextEncode"
       },
       "widgets_values": [
         "blurry, low quality, deformed face, extra limbs, watermark, text, logo, messy hair, double chin, shadow on face"
-      ],
-      "title": "\u8d1f\u5411\u63d0\u793a\u8bcd"
+      ]
     },
     {
       "id": 6,
       "type": "InstantIDModelLoader",
       "pos": [
         500,
-        1228
+        966
       ],
       "size": [
-        280,
-        84
+        225,
+        86
       ],
       "flags": {},
-      "order": 5,
+      "order": 3,
       "mode": 0,
-      "inputs": [],
+      "inputs": [
+        {
+          "localized_name": "instantid_file",
+          "name": "instantid_file",
+          "type": "COMBO",
+          "widget": {
+            "name": "instantid_file"
+          },
+          "link": null
+        }
+      ],
       "outputs": [
         {
+          "localized_name": "INSTANTID",
           "name": "INSTANTID",
           "type": "INSTANTID",
           "links": [
@@ -224,31 +316,42 @@
           ]
         }
       ],
+      "title": "InstantID 模型",
       "properties": {
         "Node name for S&R": "InstantIDModelLoader"
       },
       "widgets_values": [
         "ip-adapter.bin"
-      ],
-      "title": "InstantID \u6a21\u578b"
+      ]
     },
     {
       "id": 7,
       "type": "InstantIDFaceAnalysis",
       "pos": [
         500,
-        1372
+        1112
       ],
       "size": [
-        280,
-        84
+        225,
+        86
       ],
       "flags": {},
-      "order": 6,
+      "order": 4,
       "mode": 0,
-      "inputs": [],
+      "inputs": [
+        {
+          "localized_name": "provider",
+          "name": "provider",
+          "type": "COMBO",
+          "widget": {
+            "name": "provider"
+          },
+          "link": null
+        }
+      ],
       "outputs": [
         {
+          "localized_name": "FACEANALYSIS",
           "name": "FACEANALYSIS",
           "type": "FACEANALYSIS",
           "links": [
@@ -256,31 +359,42 @@
           ]
         }
       ],
+      "title": "人脸分析",
       "properties": {
         "Node name for S&R": "InstantIDFaceAnalysis"
       },
       "widgets_values": [
         "CPU"
-      ],
-      "title": "\u4eba\u8138\u5206\u6790"
+      ]
     },
     {
       "id": 8,
       "type": "ControlNetLoader",
       "pos": [
         500,
-        1516
+        1258
       ],
       "size": [
-        280,
-        84
+        225,
+        62
       ],
       "flags": {},
-      "order": 7,
+      "order": 5,
       "mode": 0,
-      "inputs": [],
+      "inputs": [
+        {
+          "localized_name": "ControlNet名称",
+          "name": "control_net_name",
+          "type": "COMBO",
+          "widget": {
+            "name": "control_net_name"
+          },
+          "link": null
+        }
+      ],
       "outputs": [
         {
+          "localized_name": "ControlNet",
           "name": "CONTROL_NET",
           "type": "CONTROL_NET",
           "links": [
@@ -288,77 +402,116 @@
           ]
         }
       ],
+      "title": "ControlNet 模型",
       "properties": {
         "Node name for S&R": "ControlNetLoader"
       },
       "widgets_values": [
         "instantid/diffusion_pytorch_model.safetensors"
-      ],
-      "title": "ControlNet \u6a21\u578b"
+      ]
     },
     {
       "id": 9,
       "type": "ApplyInstantID",
       "pos": [
-        1180,
+        1070,
         40
       ],
       "size": [
-        280,
-        312
+        225,
+        302
       ],
       "flags": {},
-      "order": 8,
+      "order": 14,
       "mode": 0,
       "inputs": [
         {
+          "localized_name": "instantid",
           "name": "instantid",
           "type": "INSTANTID",
           "link": 3
         },
         {
+          "localized_name": "insightface",
           "name": "insightface",
           "type": "FACEANALYSIS",
           "link": 4
         },
         {
+          "localized_name": "control_net",
           "name": "control_net",
           "type": "CONTROL_NET",
           "link": 5
         },
         {
+          "localized_name": "image",
           "name": "image",
           "type": "IMAGE",
           "link": 6
         },
         {
+          "localized_name": "model",
           "name": "model",
           "type": "MODEL",
           "link": 7
         },
         {
+          "localized_name": "positive",
           "name": "positive",
           "type": "CONDITIONING",
           "link": 8
         },
         {
+          "localized_name": "negative",
           "name": "negative",
           "type": "CONDITIONING",
           "link": 9
         },
         {
+          "localized_name": "image_kps",
           "name": "image_kps",
+          "shape": 7,
           "type": "IMAGE",
           "link": null
         },
         {
+          "localized_name": "mask",
           "name": "mask",
+          "shape": 7,
           "type": "MASK",
+          "link": null
+        },
+        {
+          "localized_name": "weight",
+          "name": "weight",
+          "type": "FLOAT",
+          "widget": {
+            "name": "weight"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "start_at",
+          "name": "start_at",
+          "type": "FLOAT",
+          "widget": {
+            "name": "start_at"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "end_at",
+          "name": "end_at",
+          "type": "FLOAT",
+          "widget": {
+            "name": "end_at"
+          },
           "link": null
         }
       ],
       "outputs": [
         {
+          "localized_name": "模型",
           "name": "MODEL",
           "type": "MODEL",
           "links": [
@@ -366,6 +519,7 @@
           ]
         },
         {
+          "localized_name": "positive",
           "name": "positive",
           "type": "CONDITIONING",
           "links": [
@@ -373,6 +527,7 @@
           ]
         },
         {
+          "localized_name": "negative",
           "name": "negative",
           "type": "CONDITIONING",
           "links": [
@@ -380,44 +535,121 @@
           ]
         }
       ],
+      "title": "应用 InstantID",
       "properties": {
         "Node name for S&R": "ApplyInstantID"
       },
       "widgets_values": [
         0.8,
-        0.0,
+        0,
         0.8
-      ],
-      "title": "\u5e94\u7528 InstantID"
+      ]
     },
     {
       "id": 10,
       "type": "ImageResizeKJv2",
       "pos": [
-        840,
-        328
+        785,
+        364
       ],
       "size": [
-        280,
-        332
+        225,
+        350
       ],
       "flags": {},
-      "order": 9,
+      "order": 12,
       "mode": 0,
       "inputs": [
         {
+          "localized_name": "image",
           "name": "image",
           "type": "IMAGE",
           "link": 10
         },
         {
+          "localized_name": "mask",
           "name": "mask",
+          "shape": 7,
           "type": "MASK",
+          "link": null
+        },
+        {
+          "localized_name": "width",
+          "name": "width",
+          "type": "INT",
+          "widget": {
+            "name": "width"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "height",
+          "name": "height",
+          "type": "INT",
+          "widget": {
+            "name": "height"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "upscale_method",
+          "name": "upscale_method",
+          "type": "COMBO",
+          "widget": {
+            "name": "upscale_method"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "keep_proportion",
+          "name": "keep_proportion",
+          "type": "COMBO",
+          "widget": {
+            "name": "keep_proportion"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "pad_color",
+          "name": "pad_color",
+          "type": "STRING",
+          "widget": {
+            "name": "pad_color"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "crop_position",
+          "name": "crop_position",
+          "type": "COMBO",
+          "widget": {
+            "name": "crop_position"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "divisible_by",
+          "name": "divisible_by",
+          "type": "INT",
+          "widget": {
+            "name": "divisible_by"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "device",
+          "name": "device",
+          "shape": 7,
+          "type": "COMBO",
+          "widget": {
+            "name": "device"
+          },
           "link": null
         }
       ],
       "outputs": [
         {
+          "localized_name": "图像",
           "name": "IMAGE",
           "type": "IMAGE",
           "links": [
@@ -425,21 +657,25 @@
           ]
         },
         {
+          "localized_name": "width",
           "name": "width",
           "type": "INT",
           "links": []
         },
         {
+          "localized_name": "height",
           "name": "height",
           "type": "INT",
           "links": []
         },
         {
+          "localized_name": "mask",
           "name": "mask",
           "type": "MASK",
           "links": []
         }
       ],
+      "title": "缩放画布 640×640",
       "properties": {
         "Node name for S&R": "ImageResizeKJv2"
       },
@@ -452,30 +688,31 @@
         "center",
         1,
         "cpu"
-      ],
-      "title": "\u7f29\u653e\u753b\u5e03 640\u00d7640"
+      ]
     },
     {
       "id": 11,
       "type": "VAEEncode",
       "pos": [
-        1180,
-        412
+        1070,
+        402
       ],
       "size": [
-        280,
-        80
+        225,
+        54
       ],
       "flags": {},
-      "order": 10,
+      "order": 15,
       "mode": 0,
       "inputs": [
         {
+          "localized_name": "像素",
           "name": "pixels",
           "type": "IMAGE",
           "link": 11
         },
         {
+          "localized_name": "vae",
           "name": "vae",
           "type": "VAE",
           "link": 12
@@ -483,6 +720,7 @@
       ],
       "outputs": [
         {
+          "localized_name": "Latent",
           "name": "LATENT",
           "type": "LATENT",
           "links": [
@@ -490,50 +728,109 @@
           ]
         }
       ],
+      "title": "编码到潜空间",
       "properties": {
         "Node name for S&R": "VAEEncode"
       },
-      "widgets_values": [],
-      "title": "\u7f16\u7801\u5230\u6f5c\u7a7a\u95f4"
+      "widgets_values": []
     },
     {
       "id": 12,
       "type": "KSampler",
       "pos": [
-        1520,
+        1355,
         40
       ],
       "size": [
-        280,
-        306
+        225,
+        262
       ],
       "flags": {},
-      "order": 11,
+      "order": 16,
       "mode": 0,
       "inputs": [
         {
+          "localized_name": "模型",
           "name": "model",
           "type": "MODEL",
           "link": 13
         },
         {
+          "localized_name": "正面条件",
           "name": "positive",
           "type": "CONDITIONING",
           "link": 14
         },
         {
+          "localized_name": "负面条件",
           "name": "negative",
           "type": "CONDITIONING",
           "link": 15
         },
         {
+          "localized_name": "Latent图像",
           "name": "latent_image",
           "type": "LATENT",
           "link": 16
+        },
+        {
+          "localized_name": "种子",
+          "name": "seed",
+          "type": "INT",
+          "widget": {
+            "name": "seed"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "步数",
+          "name": "steps",
+          "type": "INT",
+          "widget": {
+            "name": "steps"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "cfg",
+          "name": "cfg",
+          "type": "FLOAT",
+          "widget": {
+            "name": "cfg"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "采样器名称",
+          "name": "sampler_name",
+          "type": "COMBO",
+          "widget": {
+            "name": "sampler_name"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "调度器",
+          "name": "scheduler",
+          "type": "COMBO",
+          "widget": {
+            "name": "scheduler"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "降噪",
+          "name": "denoise",
+          "type": "FLOAT",
+          "widget": {
+            "name": "denoise"
+          },
+          "link": null
         }
       ],
       "outputs": [
         {
+          "localized_name": "Latent",
           "name": "LATENT",
           "type": "LATENT",
           "links": [
@@ -541,6 +838,7 @@
           ]
         }
       ],
+      "title": "采样器",
       "properties": {
         "Node name for S&R": "KSampler"
       },
@@ -552,30 +850,31 @@
         "euler",
         "karras",
         0.6
-      ],
-      "title": "\u91c7\u6837\u5668"
+      ]
     },
     {
       "id": 13,
       "type": "VAEDecode",
       "pos": [
-        1860,
+        1640,
         40
       ],
       "size": [
-        280,
-        80
+        225,
+        54
       ],
       "flags": {},
-      "order": 12,
+      "order": 17,
       "mode": 0,
       "inputs": [
         {
+          "localized_name": "Latent",
           "name": "samples",
           "type": "LATENT",
           "link": 17
         },
         {
+          "localized_name": "vae",
           "name": "vae",
           "type": "VAE",
           "link": 18
@@ -583,6 +882,7 @@
       ],
       "outputs": [
         {
+          "localized_name": "图像",
           "name": "IMAGE",
           "type": "IMAGE",
           "links": [
@@ -590,29 +890,109 @@
           ]
         }
       ],
+      "title": "解码图像",
       "properties": {
         "Node name for S&R": "VAEDecode"
       },
-      "widgets_values": [],
-      "title": "\u89e3\u7801\u56fe\u50cf"
+      "widgets_values": []
     },
     {
       "id": 14,
+      "type": "IDPhotoSpec",
+      "pos": [
+        500,
+        1380
+      ],
+      "size": [
+        225,
+        182
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "country",
+          "name": "country",
+          "type": "COMBO",
+          "widget": {
+            "name": "country"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "size",
+          "name": "size",
+          "type": "COMBO",
+          "widget": {
+            "name": "size"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "background",
+          "name": "background",
+          "type": "COMBO",
+          "widget": {
+            "name": "background"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "width",
+          "name": "width",
+          "type": "INT",
+          "links": [
+            28
+          ]
+        },
+        {
+          "localized_name": "height",
+          "name": "height",
+          "type": "INT",
+          "links": [
+            29
+          ]
+        },
+        {
+          "localized_name": "color",
+          "name": "color",
+          "type": "STRING",
+          "links": [
+            21,
+            30
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IDPhotoSpec"
+      },
+      "widgets_values": [
+        "中国",
+        "大一寸",
+        "白色"
+      ]
+    },
+    {
+      "id": 15,
       "type": "BRIA_RMBG_ModelLoader_Zho",
       "pos": [
         500,
-        1660
+        1622
       ],
       "size": [
-        280,
-        60
+        225,
+        58
       ],
       "flags": {},
-      "order": 13,
+      "order": 7,
       "mode": 0,
       "inputs": [],
       "outputs": [
         {
+          "localized_name": "rmbgmodel",
           "name": "rmbgmodel",
           "type": "RMBGMODEL",
           "links": [
@@ -620,33 +1000,35 @@
           ]
         }
       ],
+      "title": "抠图模型",
       "properties": {
         "Node name for S&R": "BRIA_RMBG_ModelLoader_Zho"
       },
-      "widgets_values": [],
-      "title": "\u62a0\u56fe\u6a21\u578b"
+      "widgets_values": []
     },
     {
-      "id": 15,
+      "id": 16,
       "type": "BRIA_RMBG_Zho",
       "pos": [
-        2200,
+        1925,
         40
       ],
       "size": [
-        280,
-        80
+        225,
+        78
       ],
       "flags": {},
-      "order": 14,
+      "order": 18,
       "mode": 0,
       "inputs": [
         {
+          "localized_name": "rmbgmodel",
           "name": "rmbgmodel",
           "type": "RMBGMODEL",
           "link": 19
         },
         {
+          "localized_name": "image",
           "name": "image",
           "type": "IMAGE",
           "link": 20
@@ -654,50 +1036,82 @@
       ],
       "outputs": [
         {
+          "localized_name": "image",
+          "name": "image",
+          "type": "IMAGE",
+          "links": [
+            23
+          ]
+        },
+        {
+          "localized_name": "mask",
+          "name": "mask",
+          "type": "MASK",
+          "links": [
+            24
+          ]
+        }
+      ],
+      "title": "抠图（移除背景）",
+      "properties": {
+        "Node name for S&R": "BRIA_RMBG_Zho"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 17,
+      "type": "LayerUtility: ColorImage",
+      "pos": [
+        785,
+        774
+      ],
+      "size": [
+        225,
+        150
+      ],
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "宽度",
+          "name": "width",
+          "type": "INT",
+          "widget": {
+            "name": "width"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "高度",
+          "name": "height",
+          "type": "INT",
+          "widget": {
+            "name": "height"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "颜色",
+          "name": "color",
+          "type": "STRING",
+          "widget": {
+            "name": "color"
+          },
+          "link": 21
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "image",
           "name": "image",
           "type": "IMAGE",
           "links": [
             22
           ]
-        },
-        {
-          "name": "mask",
-          "type": "MASK",
-          "links": [
-            23
-          ]
         }
       ],
-      "properties": {
-        "Node name for S&R": "BRIA_RMBG_Zho"
-      },
-      "widgets_values": [],
-      "title": "\u62a0\u56fe\uff08\u79fb\u9664\u80cc\u666f\uff09"
-    },
-    {
-      "id": 16,
-      "type": "LayerUtility: ColorImage",
-      "pos": [
-        500,
-        1780
-      ],
-      "size": [
-        280,
-        136
-      ],
-      "flags": {},
-      "order": 15,
-      "mode": 0,
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "image",
-          "type": "IMAGE",
-          "links": [
-            21
-          ]
-        }
-      ],
+      "title": "白色背景",
       "properties": {
         "Node name for S&R": "LayerUtility: ColorImage"
       },
@@ -706,118 +1120,73 @@
         640,
         "#FFFFFF"
       ],
-      "title": "\u767d\u8272\u80cc\u666f"
+      "color": "rgba(38, 73, 116, 0.7)"
     },
     {
-      "id": 17,
+      "id": 18,
       "type": "ImageCompositeMasked",
       "pos": [
-        2540,
+        2210,
         40
       ],
       "size": [
-        280,
-        180
+        225,
+        158
       ],
       "flags": {},
-      "order": 16,
+      "order": 19,
       "mode": 0,
       "inputs": [
         {
+          "localized_name": "目标图像",
           "name": "destination",
-          "type": "IMAGE",
-          "link": 21
-        },
-        {
-          "name": "source",
           "type": "IMAGE",
           "link": 22
         },
         {
-          "name": "mask",
-          "type": "MASK",
-          "link": 23
-        }
-      ],
-      "outputs": [
-        {
-          "name": "IMAGE",
+          "localized_name": "来源图像",
+          "name": "source",
           "type": "IMAGE",
-          "links": [
-            25
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "ImageCompositeMasked"
-      },
-      "widgets_values": [
-        0,
-        0,
-        false
-      ],
-      "title": "\u5408\u6210\u767d\u5e95"
-    },
-    {
-      "id": 18,
-      "type": "UpscaleModelLoader",
-      "pos": [
-        500,
-        1976
-      ],
-      "size": [
-        280,
-        84
-      ],
-      "flags": {},
-      "order": 17,
-      "mode": 0,
-      "inputs": [],
-      "outputs": [
+          "link": 23
+        },
         {
-          "name": "UPSCALE_MODEL",
-          "type": "UPSCALE_MODEL",
-          "links": [
-            24
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "UpscaleModelLoader"
-      },
-      "widgets_values": [
-        "RealESRGAN_x2.pth"
-      ],
-      "title": "\u653e\u5927\u6a21\u578b"
-    },
-    {
-      "id": 19,
-      "type": "ImageUpscaleWithModel",
-      "pos": [
-        2880,
-        40
-      ],
-      "size": [
-        280,
-        80
-      ],
-      "flags": {},
-      "order": 18,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "upscale_model",
-          "type": "UPSCALE_MODEL",
+          "localized_name": "遮罩",
+          "name": "mask",
+          "shape": 7,
+          "type": "MASK",
           "link": 24
         },
         {
-          "name": "image",
-          "type": "IMAGE",
-          "link": 25
+          "localized_name": "x",
+          "name": "x",
+          "type": "INT",
+          "widget": {
+            "name": "x"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "y",
+          "name": "y",
+          "type": "INT",
+          "widget": {
+            "name": "y"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "缩放来源图像",
+          "name": "resize_source",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "resize_source"
+          },
+          "link": null
         }
       ],
       "outputs": [
         {
+          "localized_name": "图像",
           "name": "IMAGE",
           "type": "IMAGE",
           "links": [
@@ -825,63 +1194,235 @@
           ]
         }
       ],
+      "title": "合成白底",
       "properties": {
-        "Node name for S&R": "ImageUpscaleWithModel"
+        "Node name for S&R": "ImageCompositeMasked"
       },
-      "widgets_values": [],
-      "title": "\u653e\u5927\u56fe\u50cf"
+      "widgets_values": [
+        0,
+        0,
+        false
+      ]
     },
     {
-      "id": 20,
-      "type": "ImageResizeKJv2",
+      "id": 19,
+      "type": "UpscaleModelLoader",
       "pos": [
-        3220,
-        40
+        500,
+        1740
       ],
       "size": [
-        280,
-        332
+        225,
+        62
       ],
       "flags": {},
-      "order": 19,
+      "order": 8,
       "mode": 0,
       "inputs": [
         {
-          "name": "image",
-          "type": "IMAGE",
-          "link": 26
-        },
-        {
-          "name": "mask",
-          "type": "MASK",
+          "localized_name": "模型名称",
+          "name": "model_name",
+          "type": "COMBO",
+          "widget": {
+            "name": "model_name"
+          },
           "link": null
         }
       ],
       "outputs": [
         {
+          "localized_name": "放大模型",
+          "name": "UPSCALE_MODEL",
+          "type": "UPSCALE_MODEL",
+          "links": [
+            25
+          ]
+        }
+      ],
+      "title": "放大模型",
+      "properties": {
+        "Node name for S&R": "UpscaleModelLoader"
+      },
+      "widgets_values": [
+        "RealESRGAN_x2.pth"
+      ]
+    },
+    {
+      "id": 20,
+      "type": "ImageUpscaleWithModel",
+      "pos": [
+        2495,
+        40
+      ],
+      "size": [
+        225,
+        54
+      ],
+      "flags": {},
+      "order": 20,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "放大模型",
+          "name": "upscale_model",
+          "type": "UPSCALE_MODEL",
+          "link": 25
+        },
+        {
+          "localized_name": "图像",
+          "name": "image",
+          "type": "IMAGE",
+          "link": 26
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "图像",
           "name": "IMAGE",
           "type": "IMAGE",
           "links": [
-            27,
-            28
+            27
+          ]
+        }
+      ],
+      "title": "放大图像",
+      "properties": {
+        "Node name for S&R": "ImageUpscaleWithModel"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 21,
+      "type": "ImageResizeKJv2",
+      "pos": [
+        2780,
+        40
+      ],
+      "size": [
+        225,
+        350
+      ],
+      "flags": {},
+      "order": 21,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "image",
+          "name": "image",
+          "type": "IMAGE",
+          "link": 27
+        },
+        {
+          "localized_name": "mask",
+          "name": "mask",
+          "shape": 7,
+          "type": "MASK",
+          "link": null
+        },
+        {
+          "localized_name": "width",
+          "name": "width",
+          "type": "INT",
+          "widget": {
+            "name": "width"
+          },
+          "link": 28
+        },
+        {
+          "localized_name": "height",
+          "name": "height",
+          "type": "INT",
+          "widget": {
+            "name": "height"
+          },
+          "link": 29
+        },
+        {
+          "localized_name": "upscale_method",
+          "name": "upscale_method",
+          "type": "COMBO",
+          "widget": {
+            "name": "upscale_method"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "keep_proportion",
+          "name": "keep_proportion",
+          "type": "COMBO",
+          "widget": {
+            "name": "keep_proportion"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "pad_color",
+          "name": "pad_color",
+          "type": "STRING",
+          "widget": {
+            "name": "pad_color"
+          },
+          "link": 30
+        },
+        {
+          "localized_name": "crop_position",
+          "name": "crop_position",
+          "type": "COMBO",
+          "widget": {
+            "name": "crop_position"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "divisible_by",
+          "name": "divisible_by",
+          "type": "INT",
+          "widget": {
+            "name": "divisible_by"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "device",
+          "name": "device",
+          "shape": 7,
+          "type": "COMBO",
+          "widget": {
+            "name": "device"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "图像",
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            31,
+            32
           ]
         },
         {
+          "localized_name": "width",
           "name": "width",
           "type": "INT",
           "links": []
         },
         {
+          "localized_name": "height",
           "name": "height",
           "type": "INT",
           "links": []
         },
         {
+          "localized_name": "mask",
           "name": "mask",
           "type": "MASK",
           "links": []
         }
       ],
+      "title": "调整至规格尺寸",
       "properties": {
         "Node name for S&R": "ImageResizeKJv2"
       },
@@ -894,81 +1435,93 @@
         "center",
         1,
         "cpu"
-      ],
-      "title": "\u8c03\u6574\u81f3 295\u00d7413"
+      ]
     },
     {
-      "id": 21,
+      "id": 22,
       "type": "SaveImage",
       "pos": [
-        3560,
+        3065,
         40
       ],
       "size": [
-        280,
-        460
+        225,
+        70
       ],
       "flags": {},
-      "order": 20,
+      "order": 22,
       "mode": 0,
       "inputs": [
         {
+          "localized_name": "图片",
           "name": "images",
           "type": "IMAGE",
-          "link": 27
+          "link": 31
+        },
+        {
+          "localized_name": "文件名前缀",
+          "name": "filename_prefix",
+          "type": "STRING",
+          "widget": {
+            "name": "filename_prefix"
+          },
+          "link": null
         }
       ],
       "outputs": [
         {
+          "localized_name": "images",
           "name": "images",
           "type": "IMAGE",
           "links": []
         }
       ],
+      "title": "保存证件照",
       "properties": {
         "Node name for S&R": "SaveImage"
       },
       "widgets_values": [
         "id_photo_"
-      ],
-      "title": "\u4fdd\u5b58\u8bc1\u4ef6\u7167"
+      ]
     },
     {
-      "id": 22,
+      "id": 23,
       "type": "PreviewImage",
       "pos": [
-        3560,
-        560
+        3065,
+        170
       ],
       "size": [
-        280,
-        460
+        225,
+        34
       ],
       "flags": {},
-      "order": 21,
+      "order": 23,
       "mode": 0,
       "inputs": [
         {
+          "localized_name": "图像",
           "name": "images",
           "type": "IMAGE",
-          "link": 28
+          "link": 32
         }
       ],
       "outputs": [
         {
+          "localized_name": "images",
           "name": "images",
           "type": "IMAGE",
           "links": []
         }
       ],
+      "title": "预览结果",
       "properties": {
         "Node name for S&R": "PreviewImage"
       },
-      "widgets_values": [],
-      "title": "\u9884\u89c8\u7ed3\u679c"
+      "widgets_values": []
     },
     {
-      "id": 23,
+      "id": 24,
       "type": "Note",
       "pos": [
         40,
@@ -979,14 +1532,16 @@
         200
       ],
       "flags": {},
-      "order": 22,
+      "order": 9,
       "mode": 0,
       "inputs": [],
       "outputs": [],
       "properties": {},
       "widgets_values": [
-        "\u8bc1\u4ef6\u7167\u6362\u8138\uff08\u6a21\u5f0f 3b\uff09\n- \u8bc1\u4ef6\u7167\u6a21\u677f\uff08\u5de6\u4e0a\uff09\u63d0\u4f9b\u53d1\u578b/\u6784\u56fe\uff0c\u4f5c\u4e3a\u751f\u6210\u8d77\u70b9\n- \u53c2\u8003\u7167\u7247\uff08\u5de6\u4e0b\uff09\u4ec5\u63d0\u4f9b\u4eba\u8138\u8eab\u4efd\uff08InstantID\uff09\n- KSampler \u7684 denoise=0.6 \u56fa\u5b9a\uff1a\u4fdd\u7559\u6a21\u677f\u6784\u56fe\u3001\u6362\u5165\u53c2\u8003\u4eba\u8138\n- \u8f93\u51fa\u7ecf\u8fc7\u62a0\u56fe\u3001\u767d\u5e95\u5408\u6210\u4e0e 295\u00d7413 \u88c1\u526a"
-      ]
+        "证件照换脸（模式 3b）\n- 证件照模板（左上）提供发型/构图，作为生成起点\n- 参考照片（左下）仅提供人脸身份（InstantID）\n- KSampler 的 denoise=0.6 固定：保留模板构图、换入参考人脸\n- 输出经过抠图、白底合成，尺寸与背景色由「证件照规格」节点决定"
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
     }
   ],
   "links": [
@@ -1136,9 +1691,9 @@
     ],
     [
       19,
-      14,
-      0,
       15,
+      0,
+      16,
       0,
       "RMBGMODEL"
     ],
@@ -1146,56 +1701,56 @@
       20,
       13,
       0,
-      15,
+      16,
       1,
       "IMAGE"
     ],
     [
       21,
-      16,
-      0,
+      14,
+      2,
       17,
-      0,
-      "IMAGE"
+      2,
+      "STRING"
     ],
     [
       22,
-      15,
-      0,
       17,
-      1,
+      0,
+      18,
+      0,
       "IMAGE"
     ],
     [
       23,
-      15,
-      1,
-      17,
-      2,
-      "MASK"
-    ],
-    [
-      24,
+      16,
+      0,
       18,
-      0,
-      19,
-      0,
-      "UPSCALE_MODEL"
-    ],
-    [
-      25,
-      17,
-      0,
-      19,
       1,
       "IMAGE"
     ],
     [
-      26,
+      24,
+      16,
+      1,
+      18,
+      2,
+      "MASK"
+    ],
+    [
+      25,
       19,
       0,
       20,
       0,
+      "UPSCALE_MODEL"
+    ],
+    [
+      26,
+      18,
+      0,
+      20,
+      1,
       "IMAGE"
     ],
     [
@@ -1208,15 +1763,55 @@
     ],
     [
       28,
-      20,
+      14,
+      0,
+      21,
+      2,
+      "INT"
+    ],
+    [
+      29,
+      14,
+      1,
+      21,
+      3,
+      "INT"
+    ],
+    [
+      30,
+      14,
+      2,
+      21,
+      6,
+      "STRING"
+    ],
+    [
+      31,
+      21,
       0,
       22,
+      0,
+      "IMAGE"
+    ],
+    [
+      32,
+      21,
+      0,
+      23,
       0,
       "IMAGE"
     ]
   ],
   "groups": [],
   "config": {},
-  "extra": {},
+  "extra": {
+    "ds": {
+      "scale": 0.6165572342796349,
+      "offset": [
+        -152.26928040611241,
+        -786.0024080479714
+      ]
+    }
+  },
   "version": 0.4
 }

@@ -1,6 +1,6 @@
 {
-  "last_node_id": 22,
-  "last_link_id": 28,
+  "last_node_id": 23,
+  "last_link_id": 32,
   "nodes": [
     {
       "id": 1,
@@ -10,8 +10,8 @@
         40
       ],
       "size": [
-        280,
-        128
+        225,
+        102
       ],
       "flags": {},
       "order": 0,
@@ -48,18 +48,18 @@
       "widgets_values": [
         "Juggernaut-X-RunDiffusion-NSFW.safetensors"
       ],
-      "title": "\u57fa\u7840\u6a21\u578b"
+      "title": "基础模型"
     },
     {
       "id": 2,
       "type": "LoadImage",
       "pos": [
         500,
-        228
+        202
       ],
       "size": [
-        280,
-        440
+        225,
+        322
       ],
       "flags": {},
       "order": 1,
@@ -86,18 +86,18 @@
       "widgets_values": [
         "Image.png"
       ],
-      "title": "\u53c2\u8003\u7167\u7247\uff08\u8eab\u4efd\u6765\u6e90\uff09"
+      "title": "参考照片（身份来源）"
     },
     {
       "id": 3,
       "type": "CLIPTextEncode",
       "pos": [
-        840,
+        785,
         40
       ],
       "size": [
-        280,
-        84
+        225,
+        102
       ],
       "flags": {},
       "order": 2,
@@ -124,18 +124,18 @@
       "widgets_values": [
         "professional ID photo, headshot, studio lighting, clean white background, centered composition, formal attire, high quality, sharp focus, short neat hair, cleanly trimmed"
       ],
-      "title": "\u6b63\u5411\u63d0\u793a\u8bcd"
+      "title": "正向提示词"
     },
     {
       "id": 4,
       "type": "CLIPTextEncode",
       "pos": [
-        840,
-        184
+        785,
+        202
       ],
       "size": [
-        280,
-        84
+        225,
+        102
       ],
       "flags": {},
       "order": 3,
@@ -162,18 +162,18 @@
       "widgets_values": [
         "blurry, low quality, deformed face, extra limbs, watermark, text, logo, messy hair, double chin, shadow on face"
       ],
-      "title": "\u8d1f\u5411\u63d0\u793a\u8bcd"
+      "title": "负向提示词"
     },
     {
       "id": 5,
       "type": "InstantIDModelLoader",
       "pos": [
         500,
-        728
+        584
       ],
       "size": [
-        280,
-        84
+        225,
+        86
       ],
       "flags": {},
       "order": 4,
@@ -194,18 +194,18 @@
       "widgets_values": [
         "ip-adapter.bin"
       ],
-      "title": "InstantID \u6a21\u578b"
+      "title": "InstantID 模型"
     },
     {
       "id": 6,
       "type": "InstantIDFaceAnalysis",
       "pos": [
         500,
-        872
+        730
       ],
       "size": [
-        280,
-        84
+        225,
+        86
       ],
       "flags": {},
       "order": 5,
@@ -226,18 +226,18 @@
       "widgets_values": [
         "CPU"
       ],
-      "title": "\u4eba\u8138\u5206\u6790"
+      "title": "人脸分析"
     },
     {
       "id": 7,
       "type": "ControlNetLoader",
       "pos": [
         500,
-        1016
+        876
       ],
       "size": [
-        280,
-        84
+        225,
+        62
       ],
       "flags": {},
       "order": 6,
@@ -258,18 +258,18 @@
       "widgets_values": [
         "instantid/diffusion_pytorch_model.safetensors"
       ],
-      "title": "ControlNet \u6a21\u578b"
+      "title": "ControlNet 模型"
     },
     {
       "id": 8,
       "type": "ApplyInstantID",
       "pos": [
-        1180,
+        1070,
         40
       ],
       "size": [
-        280,
-        312
+        225,
+        302
       ],
       "flags": {},
       "order": 7,
@@ -352,18 +352,18 @@
         0.0,
         0.8
       ],
-      "title": "\u5e94\u7528 InstantID"
+      "title": "应用 InstantID"
     },
     {
       "id": 9,
       "type": "ImageResizeKJv2",
       "pos": [
-        840,
-        328
+        785,
+        364
       ],
       "size": [
-        280,
-        332
+        225,
+        350
       ],
       "flags": {},
       "order": 8,
@@ -417,18 +417,18 @@
         1,
         "cpu"
       ],
-      "title": "\u7f29\u653e\u753b\u5e03 640\u00d7640"
+      "title": "缩放画布 640×640"
     },
     {
       "id": 10,
       "type": "VAEEncode",
       "pos": [
-        1180,
-        412
+        1070,
+        402
       ],
       "size": [
-        280,
-        80
+        225,
+        54
       ],
       "flags": {},
       "order": 9,
@@ -458,18 +458,18 @@
         "Node name for S&R": "VAEEncode"
       },
       "widgets_values": [],
-      "title": "\u7f16\u7801\u5230\u6f5c\u7a7a\u95f4"
+      "title": "编码到潜空间"
     },
     {
       "id": 11,
       "type": "KSampler",
       "pos": [
-        1520,
+        1355,
         40
       ],
       "size": [
-        280,
-        306
+        225,
+        262
       ],
       "flags": {},
       "order": 10,
@@ -517,18 +517,18 @@
         "karras",
         1.0
       ],
-      "title": "\u91c7\u6837\u5668"
+      "title": "采样器"
     },
     {
       "id": 12,
       "type": "VAEDecode",
       "pos": [
-        1860,
+        1640,
         40
       ],
       "size": [
-        280,
-        80
+        225,
+        54
       ],
       "flags": {},
       "order": 11,
@@ -558,21 +558,70 @@
         "Node name for S&R": "VAEDecode"
       },
       "widgets_values": [],
-      "title": "\u89e3\u7801\u56fe\u50cf"
+      "title": "解码图像"
     },
     {
       "id": 13,
-      "type": "BRIA_RMBG_ModelLoader_Zho",
+      "type": "IDPhotoSpec",
       "pos": [
         500,
-        1160
+        998
       ],
       "size": [
-        280,
-        60
+        225,
+        182
       ],
       "flags": {},
       "order": 12,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "width",
+          "type": "INT",
+          "links": [
+            28
+          ]
+        },
+        {
+          "name": "height",
+          "type": "INT",
+          "links": [
+            29
+          ]
+        },
+        {
+          "name": "color",
+          "type": "STRING",
+          "links": [
+            21,
+            30
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IDPhotoSpec"
+      },
+      "widgets_values": [
+        "中国",
+        "标准一寸",
+        "白色"
+      ],
+      "title": "证件照规格"
+    },
+    {
+      "id": 14,
+      "type": "BRIA_RMBG_ModelLoader_Zho",
+      "pos": [
+        500,
+        1240
+      ],
+      "size": [
+        225,
+        58
+      ],
+      "flags": {},
+      "order": 13,
       "mode": 0,
       "inputs": [],
       "outputs": [
@@ -588,21 +637,21 @@
         "Node name for S&R": "BRIA_RMBG_ModelLoader_Zho"
       },
       "widgets_values": [],
-      "title": "\u62a0\u56fe\u6a21\u578b"
+      "title": "抠图模型"
     },
     {
-      "id": 14,
+      "id": 15,
       "type": "BRIA_RMBG_Zho",
       "pos": [
-        2200,
+        1925,
         40
       ],
       "size": [
-        280,
-        80
+        225,
+        78
       ],
       "flags": {},
-      "order": 13,
+      "order": 14,
       "mode": 0,
       "inputs": [
         {
@@ -621,14 +670,14 @@
           "name": "image",
           "type": "IMAGE",
           "links": [
-            22
+            23
           ]
         },
         {
           "name": "mask",
           "type": "MASK",
           "links": [
-            23
+            24
           ]
         }
       ],
@@ -636,29 +685,38 @@
         "Node name for S&R": "BRIA_RMBG_Zho"
       },
       "widgets_values": [],
-      "title": "\u62a0\u56fe\uff08\u79fb\u9664\u80cc\u666f\uff09"
+      "title": "抠图（移除背景）"
     },
     {
-      "id": 15,
+      "id": 16,
       "type": "LayerUtility: ColorImage",
       "pos": [
-        500,
-        1280
+        785,
+        774
       ],
       "size": [
-        280,
-        136
+        225,
+        150
       ],
       "flags": {},
-      "order": 14,
+      "order": 15,
       "mode": 0,
-      "inputs": [],
+      "inputs": [
+        {
+          "name": "color",
+          "type": "STRING",
+          "link": 21,
+          "widget": {
+            "name": "color"
+          }
+        }
+      ],
       "outputs": [
         {
           "name": "image",
           "type": "IMAGE",
           "links": [
-            21
+            22
           ]
         }
       ],
@@ -670,114 +728,37 @@
         640,
         "#FFFFFF"
       ],
-      "title": "\u767d\u8272\u80cc\u666f"
+      "title": "白色背景"
     },
     {
-      "id": 16,
+      "id": 17,
       "type": "ImageCompositeMasked",
       "pos": [
-        2540,
+        2210,
         40
       ],
       "size": [
-        280,
-        180
+        225,
+        158
       ],
       "flags": {},
-      "order": 15,
+      "order": 16,
       "mode": 0,
       "inputs": [
         {
           "name": "destination",
           "type": "IMAGE",
-          "link": 21
+          "link": 22
         },
         {
           "name": "source",
           "type": "IMAGE",
-          "link": 22
+          "link": 23
         },
         {
           "name": "mask",
           "type": "MASK",
-          "link": 23
-        }
-      ],
-      "outputs": [
-        {
-          "name": "IMAGE",
-          "type": "IMAGE",
-          "links": [
-            25
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "ImageCompositeMasked"
-      },
-      "widgets_values": [
-        0,
-        0,
-        false
-      ],
-      "title": "\u5408\u6210\u767d\u5e95"
-    },
-    {
-      "id": 17,
-      "type": "UpscaleModelLoader",
-      "pos": [
-        500,
-        1476
-      ],
-      "size": [
-        280,
-        84
-      ],
-      "flags": {},
-      "order": 16,
-      "mode": 0,
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "UPSCALE_MODEL",
-          "type": "UPSCALE_MODEL",
-          "links": [
-            24
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "UpscaleModelLoader"
-      },
-      "widgets_values": [
-        "RealESRGAN_x2.pth"
-      ],
-      "title": "\u653e\u5927\u6a21\u578b"
-    },
-    {
-      "id": 18,
-      "type": "ImageUpscaleWithModel",
-      "pos": [
-        2880,
-        40
-      ],
-      "size": [
-        280,
-        80
-      ],
-      "flags": {},
-      "order": 17,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "upscale_model",
-          "type": "UPSCALE_MODEL",
           "link": 24
-        },
-        {
-          "name": "image",
-          "type": "IMAGE",
-          "link": 25
         }
       ],
       "outputs": [
@@ -790,35 +771,71 @@
         }
       ],
       "properties": {
-        "Node name for S&R": "ImageUpscaleWithModel"
+        "Node name for S&R": "ImageCompositeMasked"
       },
-      "widgets_values": [],
-      "title": "\u653e\u5927\u56fe\u50cf"
+      "widgets_values": [
+        0,
+        0,
+        false
+      ],
+      "title": "合成白底"
+    },
+    {
+      "id": 18,
+      "type": "UpscaleModelLoader",
+      "pos": [
+        500,
+        1358
+      ],
+      "size": [
+        225,
+        62
+      ],
+      "flags": {},
+      "order": 17,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "UPSCALE_MODEL",
+          "type": "UPSCALE_MODEL",
+          "links": [
+            25
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "UpscaleModelLoader"
+      },
+      "widgets_values": [
+        "RealESRGAN_x2.pth"
+      ],
+      "title": "放大模型"
     },
     {
       "id": 19,
-      "type": "ImageResizeKJv2",
+      "type": "ImageUpscaleWithModel",
       "pos": [
-        3220,
+        2495,
         40
       ],
       "size": [
-        280,
-        332
+        225,
+        54
       ],
       "flags": {},
       "order": 18,
       "mode": 0,
       "inputs": [
         {
+          "name": "upscale_model",
+          "type": "UPSCALE_MODEL",
+          "link": 25
+        },
+        {
           "name": "image",
           "type": "IMAGE",
           "link": 26
-        },
-        {
-          "name": "mask",
-          "type": "MASK",
-          "link": null
         }
       ],
       "outputs": [
@@ -826,8 +843,73 @@
           "name": "IMAGE",
           "type": "IMAGE",
           "links": [
-            27,
-            28
+            27
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ImageUpscaleWithModel"
+      },
+      "widgets_values": [],
+      "title": "放大图像"
+    },
+    {
+      "id": 20,
+      "type": "ImageResizeKJv2",
+      "pos": [
+        2780,
+        40
+      ],
+      "size": [
+        225,
+        350
+      ],
+      "flags": {},
+      "order": 19,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 27
+        },
+        {
+          "name": "mask",
+          "type": "MASK",
+          "link": null
+        },
+        {
+          "name": "width",
+          "type": "INT",
+          "link": 28,
+          "widget": {
+            "name": "width"
+          }
+        },
+        {
+          "name": "height",
+          "type": "INT",
+          "link": 29,
+          "widget": {
+            "name": "height"
+          }
+        },
+        {
+          "name": "pad_color",
+          "type": "STRING",
+          "link": 30,
+          "widget": {
+            "name": "pad_color"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            31,
+            32
           ]
         },
         {
@@ -859,27 +941,27 @@
         1,
         "cpu"
       ],
-      "title": "\u8c03\u6574\u81f3 295\u00d7413"
+      "title": "调整至规格尺寸"
     },
     {
-      "id": 20,
+      "id": 21,
       "type": "SaveImage",
       "pos": [
-        3560,
+        3065,
         40
       ],
       "size": [
-        280,
-        460
+        225,
+        70
       ],
       "flags": {},
-      "order": 19,
+      "order": 20,
       "mode": 0,
       "inputs": [
         {
           "name": "images",
           "type": "IMAGE",
-          "link": 27
+          "link": 31
         }
       ],
       "outputs": [
@@ -895,27 +977,27 @@
       "widgets_values": [
         "id_photo_"
       ],
-      "title": "\u4fdd\u5b58\u8bc1\u4ef6\u7167"
+      "title": "保存证件照"
     },
     {
-      "id": 21,
+      "id": 22,
       "type": "PreviewImage",
       "pos": [
-        3560,
-        560
+        3065,
+        170
       ],
       "size": [
-        280,
-        460
+        225,
+        34
       ],
       "flags": {},
-      "order": 20,
+      "order": 21,
       "mode": 0,
       "inputs": [
         {
           "name": "images",
           "type": "IMAGE",
-          "link": 28
+          "link": 32
         }
       ],
       "outputs": [
@@ -929,10 +1011,10 @@
         "Node name for S&R": "PreviewImage"
       },
       "widgets_values": [],
-      "title": "\u9884\u89c8\u7ed3\u679c"
+      "title": "预览结果"
     },
     {
-      "id": 22,
+      "id": 23,
       "type": "Note",
       "pos": [
         40,
@@ -943,13 +1025,13 @@
         200
       ],
       "flags": {},
-      "order": 21,
+      "order": 22,
       "mode": 0,
       "inputs": [],
       "outputs": [],
       "properties": {},
       "widgets_values": [
-        "\u8eab\u4efd\u8bc1\u8bc1\u4ef6\u7167\u751f\u6210\uff08\u6a21\u5f0f 1/2/3a\uff09\n- \u53c2\u8003\u7167\u7247\uff08\u5de6\u4e0a\uff09\u65e2\u63d0\u4f9b\u4eba\u8138\u8eab\u4efd\uff0c\u4e5f\u4f5c\u4e3a\u753b\u9762\u8d77\u70b9\n- \u6b63\u5411/\u8d1f\u5411\u63d0\u793a\u8bcd\u4e0e KSampler \u7684 denoise \u51b3\u5b9a\u76f8\u4f3c\u5ea6\uff1adenoise=1 \u5168\u65b0\u7167\u7247\uff0c\u4f4e\u503c\u66f4\u63a5\u8fd1\u53c2\u8003\n- InstantID \u5f3a\u5ea6\u7531 weight \u63a7\u5236\uff1b\u8f93\u51fa\u7ecf\u8fc7\u62a0\u56fe\u3001\u767d\u5e95\u5408\u6210\u4e0e 295\u00d7413 \u88c1\u526a"
+        "身份证证件照生成（模式 1/2/3a）\n- 参考照片（左上）既提供人脸身份，也作为画面起点\n- 正向/负向提示词与 KSampler 的 denoise 决定相似度：denoise=1 全新照片，低值更接近参考\n- InstantID 强度由 weight 控制；输出经过抠图、白底合成，尺寸与背景色由「证件照规格」节点决定"
       ]
     }
   ],
@@ -1100,9 +1182,9 @@
     ],
     [
       19,
-      13,
-      0,
       14,
+      0,
+      15,
       0,
       "RMBGMODEL"
     ],
@@ -1110,56 +1192,56 @@
       20,
       12,
       0,
-      14,
+      15,
       1,
       "IMAGE"
     ],
     [
       21,
-      15,
-      0,
+      13,
+      2,
       16,
       0,
-      "IMAGE"
+      "STRING"
     ],
     [
       22,
-      14,
-      0,
       16,
-      1,
+      0,
+      17,
+      0,
       "IMAGE"
     ],
     [
       23,
-      14,
-      1,
-      16,
-      2,
-      "MASK"
-    ],
-    [
-      24,
+      15,
+      0,
       17,
-      0,
-      18,
-      0,
-      "UPSCALE_MODEL"
-    ],
-    [
-      25,
-      16,
-      0,
-      18,
       1,
       "IMAGE"
     ],
     [
-      26,
+      24,
+      15,
+      1,
+      17,
+      2,
+      "MASK"
+    ],
+    [
+      25,
       18,
       0,
       19,
       0,
+      "UPSCALE_MODEL"
+    ],
+    [
+      26,
+      17,
+      0,
+      19,
+      1,
       "IMAGE"
     ],
     [
@@ -1172,9 +1254,41 @@
     ],
     [
       28,
-      19,
+      13,
+      0,
+      20,
+      2,
+      "INT"
+    ],
+    [
+      29,
+      13,
+      1,
+      20,
+      3,
+      "INT"
+    ],
+    [
+      30,
+      13,
+      2,
+      20,
+      4,
+      "STRING"
+    ],
+    [
+      31,
+      20,
       0,
       21,
+      0,
+      "IMAGE"
+    ],
+    [
+      32,
+      20,
+      0,
+      22,
       0,
       "IMAGE"
     ]

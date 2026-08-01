@@ -73,6 +73,9 @@ NODE_SCHEMA = {
         "inputs": [("image", "IMAGE"), ("mask", "MASK")],
         "outputs": [("IMAGE", "IMAGE"), ("width", "INT"), ("height", "INT"),
                     ("mask", "MASK")]},
+    "IDPhotoSpec": {
+        "widgets": ["country", "size", "background"], "inputs": [],
+        "outputs": [("width", "INT"), ("height", "INT"), ("color", "STRING")]},
     "VAEEncode": {
         "widgets": [], "inputs": [("pixels", "IMAGE"), ("vae", "VAE")],
         "outputs": [("LATENT", "LATENT")]},
@@ -124,6 +127,7 @@ NODE_SIZE = {
     "VAEEncode": [280, 80], "KSampler": [280, 306], "VAEDecode": [280, 80],
     "BRIA_RMBG_ModelLoader_Zho": [280, 60], "BRIA_RMBG_Zho": [280, 80],
     "LayerUtility: ColorImage": [280, 136], "ImageCompositeMasked": [280, 180],
+    "IDPhotoSpec": [280, 136],
     "UpscaleModelLoader": [280, 84], "ImageUpscaleWithModel": [280, 80],
     "SaveImage": [280, 460], "PreviewImage": [280, 460],
 }
@@ -133,13 +137,18 @@ NODE_GAP_X = 60
 NODE_GAP_Y = 60
 NOTE_SIZE = (400, 200)
 
-# API 图省略的 widgets 的默认值（保存时由前端补齐）。
-WIDGET_DEFAULTS = {"control_after_generate": "fixed", "device": "cpu"}
+# API 图省略的 widgets 的默认值（保存时由前端补齐），以及被外部节点
+# 驱动的 widget 字段在 `widgets_values` 中的展示默认值（与 IDPhotoSpec
+# 默认"标准一寸/白色"自洽；实际值由连接决定）。
+WIDGET_DEFAULTS = {
+    "control_after_generate": "fixed", "device": "cpu",
+    "width": 295, "height": 413, "color": "#FFFFFF", "pad_color": "#FFFFFF",
+}
 
 # 后处理链节点的语义化标题，按 postprocess_chain 内的相对顺序。
 POST_CHAIN_TITLES = [
-    "抠图模型", "抠图（移除背景）", "白色背景", "合成白底",
-    "放大模型", "放大图像", "调整至 295×413", "保存证件照", "预览结果",
+    "证件照规格", "抠图模型", "抠图（移除背景）", "白色背景", "合成白底",
+    "放大模型", "放大图像", "调整至规格尺寸", "保存证件照", "预览结果",
 ]
 
 
@@ -165,10 +174,21 @@ def to_ui_format(nodes, titles=None, note=None):
                 src_type = NODE_SCHEMA[nodes[src_id]["class_type"]]["outputs"][src_slot][1]
                 links.append([next_link, int(src_id), int(src_slot), int(node_id), len(slots), src_type])
                 out_links_by_node[src_id].append((src_slot, next_link))
-                slots.append((name, typ, next_link))
+                slots.append((name, typ, next_link, False))
                 next_link += 1
             else:
-                slots.append((name, typ, None))
+                slots.append((name, typ, None, False))
+        # widget 字段值形如 [src, slot] 时是外部节点驱动的连接，
+        # 追加带 widget 元数据的输入槽（前端共存模式下 widget 与 socket 同时存在）。
+        for name in schema["widgets"]:
+            val = node["inputs"].get(name)
+            if isinstance(val, list) and len(val) == 2:
+                src_id, src_slot = val
+                src_type = NODE_SCHEMA[nodes[src_id]["class_type"]]["outputs"][src_slot][1]
+                links.append([next_link, int(src_id), int(src_slot), int(node_id), len(slots), src_type])
+                out_links_by_node[src_id].append((src_slot, next_link))
+                slots.append((name, src_type, next_link, True))
+                next_link += 1
         inputs_by_node[node_id] = slots
 
     # 每个节点的依赖深度：决定从左到右布局中的列位置。
@@ -180,7 +200,7 @@ def to_ui_format(nodes, titles=None, note=None):
         stack = [node_id]
         while stack:
             cur = stack[-1]
-            parents = [str(links[l - 1][1]) for _, _, l in inputs_by_node[cur] if l is not None]
+            parents = [str(links[l - 1][1]) for _, _, l, _ in inputs_by_node[cur] if l is not None]
             pending = [p for p in parents if p not in depth]
             if pending:
                 stack.extend(pending)
@@ -214,10 +234,17 @@ def to_ui_format(nodes, titles=None, note=None):
         widgets = []
         for name in schema["widgets"]:
             val = node["inputs"].get(name)
-            if val is None:
+            if isinstance(val, list) and len(val) == 2:
+                val = WIDGET_DEFAULTS.get(name)
+            elif val is None:
                 val = WIDGET_DEFAULTS.get(name)
             widgets.append(val)
-        inputs = [{"name": n, "type": t, "link": l} for n, t, l in inputs_by_node[node_id]]
+        inputs = []
+        for n, t, l, is_widget_conn in inputs_by_node[node_id]:
+            slot = {"name": n, "type": t, "link": l}
+            if is_widget_conn:
+                slot["widget"] = {"name": n}
+            inputs.append(slot)
         outputs = []
         for slot, (name, typ) in enumerate(schema["outputs"]):
             out_links = [l for s, l in out_links_by_node[node_id] if s == slot]
@@ -267,35 +294,38 @@ def to_ui_format(nodes, titles=None, note=None):
 
 
 def postprocess_chain(decoded_id):
-    """BRIA 抠图 -> 白底 -> 放大 -> 295x413 -> 保存/预览。
+    """BRIA 抠图 -> 白底 -> 放大 -> 规格尺寸 -> 保存/预览。
 
     节点 id 从 VAEDecode 节点之后开始分配。
     返回从 VAEDecode 输出开始的 (nodes, save_id, preview_id)。
     """
     n = int(decoded_id) + 1
     nodes = {}
-    nodes[str(n)] = {"class_type": "BRIA_RMBG_ModelLoader_Zho", "inputs": {}}
-    nodes[str(n + 1)] = {"class_type": "BRIA_RMBG_Zho",
-                         "inputs": {"rmbgmodel": link(str(n)), "image": link(decoded_id)}}
-    nodes[str(n + 2)] = {"class_type": "LayerUtility: ColorImage",
-                         "inputs": {"width": 640, "height": 640, "color": "#FFFFFF"}}
-    nodes[str(n + 3)] = {"class_type": "ImageCompositeMasked",
-                         "inputs": {"destination": link(str(n + 2)), "source": link(str(n + 1)),
+    nodes[str(n)] = {"class_type": "IDPhotoSpec",
+                     "inputs": {"country": "中国", "size": "标准一寸", "background": "白色"}}
+    nodes[str(n + 1)] = {"class_type": "BRIA_RMBG_ModelLoader_Zho", "inputs": {}}
+    nodes[str(n + 2)] = {"class_type": "BRIA_RMBG_Zho",
+                         "inputs": {"rmbgmodel": link(str(n + 1)), "image": link(decoded_id)}}
+    nodes[str(n + 3)] = {"class_type": "LayerUtility: ColorImage",
+                         "inputs": {"width": 640, "height": 640, "color": link(str(n), 2)}}
+    nodes[str(n + 4)] = {"class_type": "ImageCompositeMasked",
+                         "inputs": {"destination": link(str(n + 3)), "source": link(str(n + 2)),
                                     "x": 0, "y": 0, "resize_source": False,
-                                    "mask": link(str(n + 1), 1)}}
-    nodes[str(n + 4)] = {"class_type": "UpscaleModelLoader",
+                                    "mask": link(str(n + 2), 1)}}
+    nodes[str(n + 5)] = {"class_type": "UpscaleModelLoader",
                          "inputs": {"model_name": "RealESRGAN_x2.pth"}}
-    nodes[str(n + 5)] = {"class_type": "ImageUpscaleWithModel",
-                         "inputs": {"upscale_model": link(str(n + 4)), "image": link(str(n + 3))}}
-    nodes[str(n + 6)] = {"class_type": "ImageResizeKJv2",
-                         "inputs": {"image": link(str(n + 5)), "width": 295, "height": 413,
+    nodes[str(n + 6)] = {"class_type": "ImageUpscaleWithModel",
+                         "inputs": {"upscale_model": link(str(n + 5)), "image": link(str(n + 4))}}
+    nodes[str(n + 7)] = {"class_type": "ImageResizeKJv2",
+                         "inputs": {"image": link(str(n + 6)), "width": link(str(n), 0),
+                                    "height": link(str(n), 1),
                                     "upscale_method": "lanczos", "keep_proportion": "pad",
-                                    "pad_color": "#FFFFFF", "crop_position": "center",
+                                    "pad_color": link(str(n), 2), "crop_position": "center",
                                     "divisible_by": 1}}
-    nodes[str(n + 7)] = {"class_type": "SaveImage",
-                         "inputs": {"filename_prefix": "id_photo_", "images": link(str(n + 6))}}
-    nodes[str(n + 8)] = {"class_type": "PreviewImage", "inputs": {"images": link(str(n + 6))}}
-    return nodes, str(n + 7), str(n + 8)
+    nodes[str(n + 8)] = {"class_type": "SaveImage",
+                         "inputs": {"filename_prefix": "id_photo_", "images": link(str(n + 7))}}
+    nodes[str(n + 9)] = {"class_type": "PreviewImage", "inputs": {"images": link(str(n + 7))}}
+    return nodes, str(n + 8), str(n + 9)
 
 
 def build_generate(assets):
@@ -361,7 +391,8 @@ def build_generate(assets):
         "- 参考照片（左上）既提供人脸身份，也作为画面起点\n"
         "- 正向/负向提示词与 KSampler 的 denoise 决定相似度："
         "denoise=1 全新照片，低值更接近参考\n"
-        "- InstantID 强度由 weight 控制；输出经过抠图、白底合成与 295×413 裁剪"
+        "- InstantID 强度由 weight 控制；输出经过抠图、白底合成，"
+        "尺寸与背景色由「证件照规格」节点决定"
     )
     return nodes, titles, note
 
@@ -431,7 +462,7 @@ def build_faceswap(assets, template_file):
         "- 证件照模板（左上）提供发型/构图，作为生成起点\n"
         "- 参考照片（左下）仅提供人脸身份（InstantID）\n"
         "- KSampler 的 denoise=0.6 固定：保留模板构图、换入参考人脸\n"
-        "- 输出经过抠图、白底合成与 295×413 裁剪"
+        "- 输出经过抠图、白底合成，尺寸与背景色由「证件照规格」节点决定"
     )
     return nodes, titles, note
 
