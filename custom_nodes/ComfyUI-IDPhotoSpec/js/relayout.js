@@ -3,7 +3,12 @@
 // 生成器（workflow_scripts/generate_workflows.py）用 NODE_SIZE 预估尺寸布局，
 // 但部分节点（图片缩略图、多下拉 widget 等）渲染后的真实高度大于预估，
 // 导致画布上节点重叠。本扩展在加载完成后用前端计算的真实尺寸
-// （node.size）重新执行同一套布局算法，快捷键 Ctrl+Alt+L 触发。
+// （node.size）重新执行同一套布局算法，快捷键 Ctrl+Shift+M 触发（避开
+// macOS 上 Option 会改写 e.key 的问题，与内置命令无冲突）。
+//
+// 快捷键经由命令+快捷键系统（keybindings）注册，因此命令会出现在「快捷键」
+// 面板中，用户可在面板中录制/重绑定为任意组合。keybindingService 内置忽略
+// 输入框聚焦时的按键，无需在扩展内自行处理。
 import { app } from "../../scripts/app.js";
 
 // 与 generate_workflows.py 中的布局常量保持一致。
@@ -11,14 +16,6 @@ const MARGIN = 40;
 const GAP_X = 60;
 const GAP_Y = 60;
 const NOTE_SIZE = [400, 200];
-
-// 输入框/可编辑区域聚焦时忽略快捷键，避免输入过程中误触。
-function isEditableTarget() {
-  const el = document.activeElement;
-  if (!el) return false;
-  const tag = el.tagName;
-  return tag === "INPUT" || tag === "SELECT" || tag === "TEXTAREA" || el.isContentEditable;
-}
 
 // 计算每个节点的依赖深度（从源节点出发的最长路径），
 // 与生成器的 DFS 逻辑一致：depth = 1 + max(depth[parent])。
@@ -98,8 +95,9 @@ function relayout(graph) {
     let y = MARGIN;
     let colWidth = 0;
     for (const n of cols.get(d)) {
-      n.pos[0] = x;
-      n.pos[1] = y;
+      // 必须整体赋值 pos 以触发 setter（其会同步 layoutStore），
+      // 直接写 pos[0]/pos[1] 会绕过 setter，位置不生效。
+      n.pos = [x, y];
       colWidth = Math.max(colWidth, n.size[0]);
       y += n.size[1] + GAP_Y;
     }
@@ -108,28 +106,29 @@ function relayout(graph) {
 
   // Note 节点固定放在左上角区域。
   notes.forEach((n, i) => {
-    n.pos[0] = MARGIN;
-    n.pos[1] = MARGIN + i * (NOTE_SIZE[1] + GAP_Y);
+    n.pos = [MARGIN, MARGIN + i * (NOTE_SIZE[1] + GAP_Y)];
   });
 
   graph.setDirtyCanvas(true, true);
 }
 
+// 经命令+快捷键系统注册（而非原生 keydown 监听）：命令会出现在「快捷键」
+// 面板中可重绑定，输入框聚焦忽略由 keybindingService 内置处理。
 app.registerExtension({
   name: "AutoRelayout",
-  setup() {
-    // 在捕获阶段监听 keydown：ComfyUI 的键盘系统在冒泡阶段拦截按键，
-    // 冒泡阶段的 hotkeys-js 收不到事件，捕获阶段则不受影响。
-    window.addEventListener(
-      "keydown",
-      (e) => {
-        if (isEditableTarget()) return;
-        if ((e.ctrlKey || e.metaKey) && e.altKey && e.code === "KeyL") {
-          e.preventDefault();
-          relayout(app.graph);
-        }
+  commands: [
+    {
+      id: "IDPhotoSpec.Relayout",
+      label: "IDPhotoSpec: Relayout Workflow",
+      function: () => {
+        relayout(app.graph);
       },
-      true,
-    );
-  },
+    },
+  ],
+  keybindings: [
+    {
+      commandId: "IDPhotoSpec.Relayout",
+      combo: { key: "m", ctrl: true, shift: true },
+    },
+  ],
 });
