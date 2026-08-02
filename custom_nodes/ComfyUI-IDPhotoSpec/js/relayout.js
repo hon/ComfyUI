@@ -16,6 +16,30 @@ const MARGIN = 40;
 const GAP_X = 60;
 const GAP_Y = 60;
 const NOTE_SIZE = [400, 200];
+const GROUP_PADDING = 20;
+const GROUP_TITLE = 30; // LiteGraph.NODE_TITLE_HEIGHT：组标题栏高度
+const GROUP_COLUMNS = 4; // 组内最大列数（横向网格），避免深度列铺得太宽
+const GROUPS_PER_ROW = 3; // 整行能放多少组，超出换行
+
+// 返回节点所属的组（其中心点落在哪个组框内），无归属则返回 null。
+// 归属语义与前端 LGraphGroup.recomputeInsideNodes 一致：节点中心落在组框内。
+function groupOfNode(graph, node) {
+  let best = null;
+  let bestArea = Infinity;
+  for (const g of graph.groups) {
+    const gx = g.pos[0];
+    const gy = g.pos[1];
+    const gw = g.size[0];
+    const gh = g.size[1];
+    const cx = node.pos[0] + (node.size[0] || 0) / 2;
+    const cy = node.pos[1] + (node.size[1] || 0) / 2;
+    if (cx >= gx && cx <= gx + gw && cy >= gy && cy <= gy + gh && gw * gh < bestArea) {
+      best = g;
+      bestArea = gw * gh;
+    }
+  }
+  return best;
+}
 
 // 计算每个节点的依赖深度（从源节点出发的最长路径），
 // 与生成器的 DFS 逻辑一致：depth = 1 + max(depth[parent])。
@@ -82,8 +106,83 @@ function relayout(graph) {
   }
 
   const depth = computeDepth(graph);
-  const cols = new Map();
+
+  // 归属以重排前位置判定、取最小面积组（应对嵌套），并固定到这里不再重新推导，
+  // 否则组框重叠会把同节点判到不同组导致重叠。
+  const membersByGroup = new Map();
+  const grouped = new Set();
   for (const n of flow) {
+    const g = groupOfNode(graph, n);
+    if (g) {
+      if (!membersByGroup.has(g)) membersByGroup.set(g, []);
+      membersByGroup.get(g).push(n);
+      grouped.add(n);
+    }
+  }
+
+  // 把组当作单位排序：按照组内最浅成员的 depth 升序、同深度再按组原左边距 x 升序。
+  // 在组内按 depth 做有限列数的网格（最多 GROUP_COLUMNS 列）横向铺开，避免深度跨度
+  // 过大的组铺出几十列、宽度爆炸；组框则shrink-wrap到网格范围。
+  const freeFlow = flow.filter((n) => !grouped.has(n));
+  const plan = []; // {g, members, cols, colsUsed, w, h, minDepth}
+  for (const [g, members] of membersByGroup) {
+    const ordered = [...members].sort((a, b) => (depth[a.id] ?? 0) - (depth[b.id] ?? 0) || a.id - b.id);
+    const colsUsed = Math.min(GROUP_COLUMNS, ordered.length);
+    const cols = Array.from({ length: colsUsed }, () => []);
+    ordered.forEach((n, i) => cols[i % colsUsed].push(n));
+    const colWidths = cols.map((c) => Math.max(...c.map((n) => n.size[0] || 0)));
+    // 各列的实际堆叠高度（节点各异高度 → 列高由该列所有节点之和决定，而非最大单高）。
+    const colHeights = cols.map((c) => c.reduce((sum, n) => sum + (n.size[1] || 0), 0) + Math.max(0, c.length - 1) * GAP_Y);
+    const rowH = Math.max(0, ...colHeights);
+    const w = colWidths.reduce((a, b) => a + b, 0) + (colsUsed - 1) * GAP_X + 2 * GROUP_PADDING;
+    const h = rowH + GROUP_TITLE + 2 * GROUP_PADDING;
+    plan.push({
+      g, members, cols, colsUsed, w, h,
+      minDepth: Math.min(...members.map((n) => depth[n.id] ?? 0)),
+      rowH,
+    });
+  }
+  plan.sort((a, b) => a.minDepth - b.minDepth || a.g.pos[0] - b.g.pos[0]);
+
+  // 把组整体放到画布上：左→右尽量并排，满 GROUPS_PER_ROW 换行到下一行。
+  // 免费节点排在组区下方，以避开组框。
+  let gx = MARGIN;
+  let gy = MARGIN;
+  let rowH = 0;
+  let placedInRow = 0;
+  let groupBottom = gy;
+  for (const p of plan) {
+    let cx = gx + GROUP_PADDING;
+    const baseY = gy + GROUP_TITLE + GROUP_PADDING;
+    p.cols.forEach((col) => {
+      let cy = baseY;
+      let colW = 0;
+      for (const n of col) {
+        n.pos = [cx, cy];
+        colW = Math.max(colW, n.size[0] || 0);
+        cy += n.size[1] + GAP_Y;
+      }
+      cx += colW + GAP_X;
+    });
+    p.g.pos = [gx, gy];
+    p.g.size[0] = p.w;
+    p.g.size[1] = p.h;
+    groupBottom = Math.max(groupBottom, gy + p.h);
+    rowH = Math.max(rowH, p.h);
+    placedInRow++;
+    if (placedInRow >= GROUPS_PER_ROW) {
+      gx = MARGIN;
+      gy += rowH + GAP_Y;
+      rowH = 0;
+      placedInRow = 0;
+    } else {
+      gx += p.w + GAP_X;
+    }
+  }
+
+  // 无组的节点走原有全局列式布局，放到组所在区块下方以避开组框。
+  const cols = new Map();
+  for (const n of freeFlow) {
     const d = depth[n.id] ?? 0;
     if (!cols.has(d)) cols.set(d, []);
     cols.get(d).push(n);
@@ -91,8 +190,9 @@ function relayout(graph) {
 
   // 有 Note 时主流程整体右移，为左上角的说明卡片留出空间。
   let x = MARGIN + (notes.length ? NOTE_SIZE[0] + GAP_X : 0);
+  let y0 = groupBottom + GAP_Y;
   for (const d of [...cols.keys()].sort((a, b) => a - b)) {
-    let y = MARGIN;
+    let y = y0;
     let colWidth = 0;
     for (const n of cols.get(d)) {
       // 必须整体赋值 pos 以触发 setter（其会同步 layoutStore），
