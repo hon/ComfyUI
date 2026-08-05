@@ -10,8 +10,8 @@
         40
       ],
       "size": [
-        225,
-        102
+        280,
+        128
       ],
       "flags": {},
       "order": 0,
@@ -48,18 +48,18 @@
       "widgets_values": [
         "Juggernaut-X-RunDiffusion-NSFW.safetensors"
       ],
-      "title": "基础模型"
+      "title": "\u57fa\u7840\u6a21\u578b"
     },
     {
       "id": 2,
       "type": "LoadImage",
       "pos": [
         500,
-        202
+        228
       ],
       "size": [
-        225,
-        322
+        280,
+        440
       ],
       "flags": {},
       "order": 1,
@@ -86,18 +86,18 @@
       "widgets_values": [
         "Image.png"
       ],
-      "title": "参考照片（身份来源）"
+      "title": "\u53c2\u8003\u7167\u7247\uff08\u8eab\u4efd\u6765\u6e90\uff09"
     },
     {
       "id": 3,
       "type": "CLIPTextEncode",
       "pos": [
-        785,
+        840,
         40
       ],
       "size": [
-        225,
-        102
+        280,
+        84
       ],
       "flags": {},
       "order": 2,
@@ -122,20 +122,20 @@
         "Node name for S&R": "CLIPTextEncode"
       },
       "widgets_values": [
-        "professional ID photo, headshot, studio lighting, clean white background, centered composition, formal attire, high quality, sharp focus, short neat hair, cleanly trimmed"
+        "Chinese, Asian face, professional ID photo, headshot, studio lighting, clean white background, centered composition, formal attire, high quality, sharp focus, short neat hair, cleanly trimmed"
       ],
-      "title": "正向提示词"
+      "title": "\u6b63\u5411\u63d0\u793a\u8bcd"
     },
     {
       "id": 4,
       "type": "CLIPTextEncode",
       "pos": [
-        785,
-        202
+        840,
+        184
       ],
       "size": [
-        225,
-        102
+        280,
+        84
       ],
       "flags": {},
       "order": 3,
@@ -162,18 +162,18 @@
       "widgets_values": [
         "blurry, low quality, deformed face, extra limbs, watermark, text, logo, messy hair, double chin, shadow on face"
       ],
-      "title": "负向提示词"
+      "title": "\u8d1f\u5411\u63d0\u793a\u8bcd"
     },
     {
       "id": 5,
       "type": "InstantIDModelLoader",
       "pos": [
         500,
-        584
+        728
       ],
       "size": [
-        225,
-        86
+        280,
+        84
       ],
       "flags": {},
       "order": 4,
@@ -194,18 +194,18 @@
       "widgets_values": [
         "ip-adapter.bin"
       ],
-      "title": "InstantID 模型"
+      "title": "InstantID \u6a21\u578b"
     },
     {
       "id": 6,
       "type": "InstantIDFaceAnalysis",
       "pos": [
         500,
-        730
+        872
       ],
       "size": [
-        225,
-        86
+        280,
+        84
       ],
       "flags": {},
       "order": 5,
@@ -226,18 +226,18 @@
       "widgets_values": [
         "CPU"
       ],
-      "title": "人脸分析"
+      "title": "\u4eba\u8138\u5206\u6790"
     },
     {
       "id": 7,
       "type": "ControlNetLoader",
       "pos": [
         500,
-        876
+        1016
       ],
       "size": [
-        225,
-        62
+        280,
+        84
       ],
       "flags": {},
       "order": 6,
@@ -258,18 +258,18 @@
       "widgets_values": [
         "instantid/diffusion_pytorch_model.safetensors"
       ],
-      "title": "ControlNet 模型"
+      "title": "ControlNet \u6a21\u578b"
     },
     {
       "id": 8,
       "type": "ApplyInstantID",
       "pos": [
-        1070,
+        1180,
         40
       ],
       "size": [
-        225,
-        302
+        280,
+        312
       ],
       "flags": {},
       "order": 7,
@@ -352,18 +352,18 @@
         0.0,
         0.8
       ],
-      "title": "应用 InstantID"
+      "title": "\u5e94\u7528 InstantID"
     },
     {
       "id": 9,
       "type": "ImageResizeKJv2",
       "pos": [
-        785,
-        364
+        840,
+        328
       ],
       "size": [
-        225,
-        350
+        280,
+        332
       ],
       "flags": {},
       "order": 8,
@@ -417,18 +417,18 @@
         1,
         "cpu"
       ],
-      "title": "缩放画布 640×640"
+      "title": "\u7f29\u653e\u753b\u5e03 640\u00d7640"
     },
     {
       "id": 10,
       "type": "VAEEncode",
       "pos": [
-        1070,
-        402
+        1180,
+        412
       ],
       "size": [
-        225,
-        54
+        280,
+        80
       ],
       "flags": {},
       "order": 9,
@@ -458,18 +458,18 @@
         "Node name for S&R": "VAEEncode"
       },
       "widgets_values": [],
-      "title": "编码到潜空间"
+      "title": "\u7f16\u7801\u5230\u6f5c\u7a7a\u95f4"
     },
     {
       "id": 11,
       "type": "KSampler",
       "pos": [
-        1355,
+        1520,
         40
       ],
       "size": [
-        225,
-        262
+        280,
+        306
       ],
       "flags": {},
       "order": 10,
@@ -517,18 +517,18 @@
         "karras",
         1.0
       ],
-      "title": "采样器"
+      "title": "\u91c7\u6837\u5668"
     },
     {
       "id": 12,
       "type": "VAEDecode",
       "pos": [
-        1640,
+        1860,
         40
       ],
       "size": [
-        225,
-        54
+        280,
+        80
       ],
       "flags": {},
       "order": 11,
@@ -558,18 +558,18 @@
         "Node name for S&R": "VAEDecode"
       },
       "widgets_values": [],
-      "title": "解码图像"
+      "title": "\u89e3\u7801\u56fe\u50cf"
     },
     {
       "id": 13,
       "type": "IDPhotoSpec",
       "pos": [
         500,
-        998
+        1160
       ],
       "size": [
-        225,
-        182
+        280,
+        136
       ],
       "flags": {},
       "order": 12,
@@ -603,22 +603,22 @@
         "Node name for S&R": "IDPhotoSpec"
       },
       "widgets_values": [
-        "中国",
-        "标准一寸",
-        "白色"
+        "\u4e2d\u56fd",
+        "\u6807\u51c6\u4e00\u5bf8",
+        "\u767d\u8272"
       ],
-      "title": "证件照规格"
+      "title": "\u8bc1\u4ef6\u7167\u89c4\u683c"
     },
     {
       "id": 14,
       "type": "BRIA_RMBG_ModelLoader_Zho",
       "pos": [
         500,
-        1240
+        1356
       ],
       "size": [
-        225,
-        58
+        280,
+        60
       ],
       "flags": {},
       "order": 13,
@@ -637,18 +637,18 @@
         "Node name for S&R": "BRIA_RMBG_ModelLoader_Zho"
       },
       "widgets_values": [],
-      "title": "抠图模型"
+      "title": "\u62a0\u56fe\u6a21\u578b"
     },
     {
       "id": 15,
       "type": "BRIA_RMBG_Zho",
       "pos": [
-        1925,
+        2200,
         40
       ],
       "size": [
-        225,
-        78
+        280,
+        80
       ],
       "flags": {},
       "order": 14,
@@ -685,18 +685,18 @@
         "Node name for S&R": "BRIA_RMBG_Zho"
       },
       "widgets_values": [],
-      "title": "抠图（移除背景）"
+      "title": "\u62a0\u56fe\uff08\u79fb\u9664\u80cc\u666f\uff09"
     },
     {
       "id": 16,
       "type": "LayerUtility: ColorImage",
       "pos": [
-        785,
-        774
+        840,
+        720
       ],
       "size": [
-        225,
-        150
+        280,
+        136
       ],
       "flags": {},
       "order": 15,
@@ -728,18 +728,18 @@
         640,
         "#FFFFFF"
       ],
-      "title": "白色背景"
+      "title": "\u767d\u8272\u80cc\u666f"
     },
     {
       "id": 17,
       "type": "ImageCompositeMasked",
       "pos": [
-        2210,
+        2540,
         40
       ],
       "size": [
-        225,
-        158
+        280,
+        180
       ],
       "flags": {},
       "order": 16,
@@ -778,18 +778,18 @@
         0,
         false
       ],
-      "title": "合成白底"
+      "title": "\u5408\u6210\u767d\u5e95"
     },
     {
       "id": 18,
       "type": "UpscaleModelLoader",
       "pos": [
         500,
-        1358
+        1476
       ],
       "size": [
-        225,
-        62
+        280,
+        84
       ],
       "flags": {},
       "order": 17,
@@ -810,18 +810,18 @@
       "widgets_values": [
         "RealESRGAN_x2.pth"
       ],
-      "title": "放大模型"
+      "title": "\u653e\u5927\u6a21\u578b"
     },
     {
       "id": 19,
       "type": "ImageUpscaleWithModel",
       "pos": [
-        2495,
+        2880,
         40
       ],
       "size": [
-        225,
-        54
+        280,
+        80
       ],
       "flags": {},
       "order": 18,
@@ -851,18 +851,18 @@
         "Node name for S&R": "ImageUpscaleWithModel"
       },
       "widgets_values": [],
-      "title": "放大图像"
+      "title": "\u653e\u5927\u56fe\u50cf"
     },
     {
       "id": 20,
       "type": "ImageResizeKJv2",
       "pos": [
-        2780,
+        3220,
         40
       ],
       "size": [
-        225,
-        350
+        280,
+        332
       ],
       "flags": {},
       "order": 19,
@@ -935,24 +935,24 @@
         295,
         413,
         "lanczos",
-        "pad",
+        "crop",
         "#FFFFFF",
         "center",
         1,
         "cpu"
       ],
-      "title": "调整至规格尺寸"
+      "title": "\u8c03\u6574\u81f3\u89c4\u683c\u5c3a\u5bf8"
     },
     {
       "id": 21,
       "type": "SaveImage",
       "pos": [
-        3065,
+        3560,
         40
       ],
       "size": [
-        225,
-        70
+        280,
+        460
       ],
       "flags": {},
       "order": 20,
@@ -977,18 +977,18 @@
       "widgets_values": [
         "id_photo_"
       ],
-      "title": "保存证件照"
+      "title": "\u4fdd\u5b58\u8bc1\u4ef6\u7167"
     },
     {
       "id": 22,
       "type": "PreviewImage",
       "pos": [
-        3065,
-        170
+        3560,
+        560
       ],
       "size": [
-        225,
-        34
+        280,
+        460
       ],
       "flags": {},
       "order": 21,
@@ -1011,7 +1011,7 @@
         "Node name for S&R": "PreviewImage"
       },
       "widgets_values": [],
-      "title": "预览结果"
+      "title": "\u9884\u89c8\u7ed3\u679c"
     },
     {
       "id": 23,
@@ -1031,7 +1031,7 @@
       "outputs": [],
       "properties": {},
       "widgets_values": [
-        "身份证证件照生成（模式 1/2/3a）\n- 参考照片（左上）既提供人脸身份，也作为画面起点\n- 正向/负向提示词与 KSampler 的 denoise 决定相似度：denoise=1 全新照片，低值更接近参考\n- InstantID 强度由 weight 控制；输出经过抠图、白底合成，尺寸与背景色由「证件照规格」节点决定"
+        "\u8eab\u4efd\u8bc1\u8bc1\u4ef6\u7167\u751f\u6210\uff08\u6a21\u5f0f 1/2/3a\uff09\n- \u53c2\u8003\u7167\u7247\uff08\u5de6\u4e0a\uff09\u65e2\u63d0\u4f9b\u4eba\u8138\u8eab\u4efd\uff0c\u4e5f\u4f5c\u4e3a\u753b\u9762\u8d77\u70b9\n- \u6b63\u5411/\u8d1f\u5411\u63d0\u793a\u8bcd\u4e0e KSampler \u7684 denoise \u51b3\u5b9a\u76f8\u4f3c\u5ea6\uff1adenoise=1 \u5168\u65b0\u7167\u7247\uff0c\u4f4e\u503c\u66f4\u63a5\u8fd1\u53c2\u8003\n- InstantID \u5f3a\u5ea6\u7531 weight \u63a7\u5236\uff1b\u8f93\u51fa\u7ecf\u8fc7\u62a0\u56fe\u3001\u767d\u5e95\u5408\u6210\uff0c\u5c3a\u5bf8\u4e0e\u80cc\u666f\u8272\u7531\u300c\u8bc1\u4ef6\u7167\u89c4\u683c\u300d\u8282\u70b9\u51b3\u5b9a"
       ]
     }
   ],

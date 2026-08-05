@@ -319,7 +319,7 @@ def postprocess_chain(decoded_id):
     nodes[str(n + 7)] = {"class_type": "ImageResizeKJv2",
                          "inputs": {"image": link(str(n + 6)), "width": link(str(n), 0),
                                     "height": link(str(n), 1),
-                                    "upscale_method": "lanczos", "keep_proportion": "pad",
+                                    "upscale_method": "lanczos", "keep_proportion": "crop",
                                     "pad_color": link(str(n), 2), "crop_position": "center",
                                     "divisible_by": 1}}
     nodes[str(n + 8)] = {"class_type": "SaveImage",
@@ -441,7 +441,7 @@ def build_faceswap(assets, template_file):
                               "cfg": assets["sampler"]["cfg"],
                               "sampler_name": assets["sampler"]["sampler_name"],
                               "scheduler": assets["sampler"]["scheduler"],
-                              "denoise": 0.6}}
+                               "denoise": 0.5}}
     nodes["13"] = {"class_type": "VAEDecode",
                    "inputs": {"samples": link("12"), "vae": link("1", 2)}}
     post, _, _ = postprocess_chain("13")
@@ -453,7 +453,7 @@ def build_faceswap(assets, template_file):
         "4": "正向提示词", "5": "负向提示词",
         "6": "InstantID 模型", "7": "人脸分析", "8": "ControlNet 模型",
         "9": "应用 InstantID", "10": "缩放画布 640×640",
-        "11": "编码到潜空间", "12": "采样器", "13": "解码图像",
+        "11": "编码到潜空间", "12": "K采样器", "13": "解码图像",
     }
     for i, t in enumerate(POST_CHAIN_TITLES):
         titles[str(14 + i)] = t
@@ -461,7 +461,7 @@ def build_faceswap(assets, template_file):
         "证件照换脸（模式 3b）\n"
         "- 证件照模板（左上）提供发型/构图，作为生成起点\n"
         "- 参考照片（左下）仅提供人脸身份（InstantID）\n"
-        "- KSampler 的 denoise=0.6 固定：保留模板构图、换入参考人脸\n"
+        "- KSampler 的 denoise=0.5 固定：保留模板构图、换入参考人脸\n"
         "- 输出经过抠图、白底合成，尺寸与背景色由「证件照规格」节点决定"
     )
     return nodes, titles, note

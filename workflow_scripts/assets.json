@@ -29,7 +29,7 @@
       "slicked-back hair"
     ]
   },
-  "positive_prompt": "professional ID photo, headshot, studio lighting, clean white background, centered composition, formal attire, high quality, sharp focus",
+  "positive_prompt": "Chinese, Asian face, professional ID photo, headshot, studio lighting, clean white background, centered composition, formal attire, high quality, sharp focus",
   "negative_prompt": "blurry, low quality, deformed face, extra limbs, watermark, text, logo, messy hair, double chin, shadow on face",
   "upscale": {
     "model": "RealESRGAN_x2.pth"
@@ -42,10 +42,7 @@
   "templates": {
     "dir": "",
     "files": [
-      "male_short.png",
-      "male_long.png",
-      "female_short.png",
-      "female_long.png"
+      "ref-photo-1.jpeg"
     ]
   }
 }
