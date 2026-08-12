@@ -38,7 +38,7 @@ import comfy.patcher_extension
 import comfy.utils
 import comfy_aimdo.host_buffer
 from comfy.comfy_types import UnetWrapperFunction
-from comfy.logging import detail
+from comfy.internal_logging import detail
 from comfy.quant_ops import QuantizedTensor
 from comfy.patcher_extension import CallbacksMP, PatcherInjection, WrappersMP
 
@@ -684,6 +684,14 @@ class ModelPatcher:
 
     def set_model_attn2_output_patch(self, patch):
         self.set_model_patch(patch, "attn2_output_patch")
+
+    def set_model_optimized_attention(self, optimized_attention):
+        def optimized_attention_override(_, *args, **kwargs):
+            return optimized_attention(*args, **kwargs)
+
+        if hasattr(optimized_attention, "container_function") and optimized_attention.container_function is not None:
+            optimized_attention_override.container_function = optimized_attention.container_function
+        self.model_options["transformer_options"]["optimized_attention_override"] = optimized_attention_override
 
     def set_model_input_block_patch(self, patch):
         self.set_model_patch(patch, "input_block_patch")

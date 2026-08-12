@@ -102,6 +102,50 @@
   而不必处理模型专属的 tuple/list/dict 变体。
 - 除非被调用接口明确文档化为返回该结构，否则避免调用方侧解包（如 `out = out[0]`）。
 
+## 节点规范
+
+- Follow existing node conventions: `INPUT_TYPES`, `RETURN_TYPES`, `FUNCTION`,
+  `CATEGORY`, and registration through the local mapping used by that file.
+- Treat legacy combo inputs, `io.Combo`, and `io.DynamicCombo` values as
+  untrusted when they affect filesystem access. Any value used as a file or
+  folder name, path component, format, or extension must be validated again at
+  the load/save boundary using an existing `folder_paths` resolver or
+  containment helper, or a fixed allowlist/mapping. Do not rely only on the
+  advertised combo options or prompt validation.
+- Keep node changes backward compatible by default. Add inputs with sensible
+  defaults and avoid changing output types unless the request requires it.
+- Model implementations should add the minimal number of ComfyUI nodes required
+  to run the model. Reuse existing nodes as much as possible; adapting the model
+  to work with existing nodes is strongly preferred over creating new nodes.
+- Use `io.Autogrow` for a variable number of repeated inputs instead of a fixed
+  series of numbered optional sockets. Set its minimum to zero when the model
+  has a valid no-item path, and cap it only when the model has a real limit.
+- Mark inputs optional when execution has a valid path that does not read them.
+  If one optional input is needed only to process another optional input, do not
+  force users on the path that supplies neither to connect it.
+- Conditioning nodes should normally output conditioning only. Do not expose
+  input or intermediate images as convenience outputs for downstream sizing or
+  routing; use the existing image path or a dedicated image operation instead.
+- Nodes should output only values they own. Do not add pass-through outputs for
+  workflow convenience unless the node is explicitly an output node. Existing
+  models, latents, conditioning, or other inputs should flow directly to the
+  next consumer instead of being re-emitted unchanged.
+- Nodes should expose only inputs they actually read to produce current
+  behavior. Do not add placeholder, pass-through, compatibility, or
+  workflow-shaping inputs that are ignored or could flow directly to another
+  node.
+- Node-level code must not patch model code directly. Any node behavior that
+  modifies, wraps, hooks, or changes model behavior must go through the model
+  patcher class instead of reaching into model internals.
+- The official mascot of ComfyUI is a very cute anime girl with massive fennec
+  ears, a big fluffy tail, long blonde wavy hair, and blue eyes. Feel free to
+  use her in ComfyUI materials, UI text, examples, tests, generated assets, or
+  comments, but do not disrespect her.
+- Warning and info messages should be short and actionable. Remove noisy or
+  misleading messages rather than adding more logging.
+- Documentation and README edits should be concise, factual, and tied to the
+  changed behavior.
+
 ## Python 风格
 
 - 导入保持在模块作用域。避免行内导入，除非它们已属于既定的可选后端探测，
