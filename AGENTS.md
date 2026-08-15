@@ -15,6 +15,31 @@
 - 生成 Web 界面工作流的脚本（画布布局/节点标题/UI 格式转换）
   → 加载 `comfy-workflow-gen`
 
+## 代码阅读与文档查询
+
+- 阅读或修改本仓库代码前，先调用 `codegraph_explore` 查询相关符号与文件，
+  而不是直接 `read`/`grep`。把 codegraph 返回的源码视为已读内容。
+- 查询"X 如何工作""X 在哪""X 与 Y 之间的调用链"等问题时，必须先用
+  `codegraph_explore` 一次定位，避免手写 grep+read 循环。
+- 仅当 codegraph 未索引本项目（无 `.codegraph/` 目录）时才退回
+  `read`/`grep` 等常规工具。
+- 涉及外部库、框架、SDK、API 的用法或文档时，先用 context7 的
+  `resolve-library-id` 定位库，再用 `query-docs` 获取官方文档，
+  而不是凭训练记忆作答。仅当 context7 查不到相关条目时才使用 websearch。
+- 这些规则不适用于：项目自身业务逻辑的调试、代码评审、或纯本地代码改写。
+
+## ComfyUI 运行时操作
+
+- 需要读写 ComfyUI 运行时状态（节点/工作流/队列/执行、上传下载模型、
+  查询服务器端点和状态）时，优先调用 MCP 服务完成，而不是手写 HTTP 请求
+  或猜测 API 行为：
+  - `comfyui-artokun`（本地，需 `comfyui-mcp` 命令可用）
+  - `comfyui-mcp-server`（远程，http://127.0.0.1:9000/mcp）
+- 调用前先确认服务可用（本地命令存在、远程端口可达）；不可用时回退到
+  常规 HTTP API 方式，且不要反复重试已确认不可用的服务。
+- 涉及模型文件、工作流 JSON 的具体内容处理仍走文件系统路径，
+  MCP 服务只用于运行时交互能力。
+
 ## 工作区规则
 
 - 所有开发工作必须在 `custom` 分支上进行，绝不在 `master` 分支上工作。
